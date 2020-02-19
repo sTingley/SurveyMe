@@ -1,0 +1,21 @@
+{
+  "name": "agile-survey-backend",
+  "version": "1.0.0",
+  "description": "survey app built in express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sTingley/SurveyMe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "express": "^4.17.1",
+    "log4js": "^5.3.0",
+    "mongodb": "^3.5.3"
+  }
+}

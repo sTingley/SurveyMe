@@ -1,0 +1,23 @@
+{
+    "host": "hostname here",
+    "dbName": "dbNAME",
+    "apiPort":5000,
+    "dbPort": 27017,
+    "dbName": "test",
+    "dbUser": "m001-student",
+    "dbPass": "m001-mongodb-basics",
+
+    "logger": {
+        "appenders": {
+            "console": {
+                "type": "stdout"
+            }
+        },
+        "categories": {
+            "default": {
+                "appenders": [ "console" ],
+                "level": "debug"
+            }
+        }
+    }
+}
