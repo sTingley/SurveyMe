@@ -16,10 +16,14 @@ const connectMongo = async (application) => {
 			assert.equal(err, null)
 			const db = client.db(`${application.config.dbName}`);
 
+			application.logger.debug(`connected to db on port ${application.config.dbPort}`);
+
 			routes.expose(application, db) //routes will contain our endpoints
 				.then(() => {
-					application.logger.info(`connected to db on port ${application.config.dbPort}`);
-					application.logger.info(`endpoints configured`);
+					application.logger.info('endpoints exposed');
+				})
+				.catch((err) => {
+					application.logger.error(err);
 				})
 		})
 }
@@ -41,7 +45,7 @@ const loadDb = async (application) => {
 const authenticate = async (application) => {
 	//TO-DO: Have this resolve the auth.js auth method
     return new Promise((resolve, reject) => {
-        resolve(application.logger.info('Session auth is TBD. Likely going to use JWTs.'))
+        resolve(application.logger.warn('Session auth is TBD. Likely going to use JWTs.'))
     })
 }
 

@@ -5,6 +5,8 @@ Current routes exposed/supported:
 
 const expose = async (application, db) => {
 
+    application.logger.debug('inside routes.expose');
+
     /**********************************************************************
     ***********************************************************************/
     application.endpoints.get('api/v1/getSurveys', (req, res) => {
