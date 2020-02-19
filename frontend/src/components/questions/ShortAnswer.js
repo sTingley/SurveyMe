@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TypeZero(props){
+export default function ShortAnswer(props){
 
   return (
     <div>
