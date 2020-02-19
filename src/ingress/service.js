@@ -5,7 +5,7 @@ const assert = require('assert');
 
 //MongoClient.connect("mongodb+srv://m001-student:m001-mongodb-basics@cluster0-rmf3a.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true },
 
-const testDbConnection = async (application) => {
+const connectMongo = async (application) => {
 
 	const { MongoClient } = require('mongodb');
 	const assert = require('assert');
@@ -15,8 +15,8 @@ const testDbConnection = async (application) => {
 
 			assert.equal(err, null)
 			const db = client.db(`${application.config.dbName}`);
-			//we are passing the database object to the routes.expose method -- worry about db access there
-			routes.expose(application, db)
+
+			routes.expose(application, db) //routes will contain our endpoints
 				.then(() => {
 					application.logger.info(`connected to db on port ${application.config.dbPort}`);
 					application.logger.info(`endpoints configured`);
@@ -27,7 +27,7 @@ const testDbConnection = async (application) => {
 
 const loadDb = async (application) => {
 
-	testDbConnection(application)
+	connectMongo(application) //Today we are using Mongo but this function doesn't care
 		.then(() => {
 			application.logger.debug('tested db connection ... \n')
 		})
@@ -38,9 +38,10 @@ const loadDb = async (application) => {
 }
 
 
-const loadOtherMiddlewares = async (application) => {
+const authenticate = async (application) => {
+	//TO-DO: Have this resolve the auth.js auth method
     return new Promise((resolve, reject) => {
-        resolve(application.logger.info('Here we could make file system / other calls'))
+        resolve(application.logger.info('Session auth is TBD. Likely going to use JWTs.'))
     })
 }
 
@@ -57,14 +58,14 @@ const start = async (application) => {
 		next();
 	})
 
-	const loadStuff = loadOtherMiddlewares(application);
+	const loadStuff = authenticate(application);
 	const promiseDB = loadDb(application);
 
 	try {
 
 		await Promise.all([loadStuff, promiseDB])
 			.then(() => {
-				application.logger.info('middleware and db connection tested...');
+				application.logger.info('db connection tested...');
 			})
 			.then(() => {
 				application.endpoints.listen(application.config.apiPort, () => {
