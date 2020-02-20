@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import SurveyDashboard from './components/SurveyDashboard';
+import MakeASurvey from './components/MakeASurvey';
 
 export default function App() {
   return (
@@ -16,6 +17,9 @@ export default function App() {
             <li>
               <Link to="/ViewSurveys">ViewSurveys</Link>
             </li>
+            <li>
+              <Link to="/MakeASurvey">Make A Survey</Link>
+            </li>
           </ul>
         </nav>
 
@@ -24,6 +28,11 @@ export default function App() {
         <Switch>
           <Route path="/ViewSurveys">
             <SurveyDashboard />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route path='/MakeASurvey'>
+            <MakeASurvey/>
           </Route>
         </Switch>
       </div>

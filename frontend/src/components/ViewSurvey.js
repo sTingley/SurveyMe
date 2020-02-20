@@ -2,6 +2,7 @@ import React from "react";
 import MultipleChoice from './questions/MultipleChoice.js'
 import ShortAnswer from './questions/ShortAnswer.js'
 import MultiSelect from './questions/MultiSelect.js'
+import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
 export default function ViewSurvey(props){
   const qobj = {
@@ -39,8 +40,10 @@ export default function ViewSurvey(props){
 
   return(
     <div>
-    <h1>{`${surveyobj.title} (${surveyobj.id})`}</h1>
-    <ul>{returnQs(surveyobj.questions)}</ul>
+      <Typography variant="h4"component="h2">
+        {`Survey Title: ${surveyobj.title}  ID: ${surveyobj.id}`}
+      </Typography>
+        <ul>{returnQs(surveyobj.questions)}</ul>
     </div>
   )
 }
