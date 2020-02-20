@@ -92,7 +92,8 @@ const IngressService = () => {
 
 	const application = {};
 
-	application.config = require('/home/tcsuser/Projects/SurveyMe/config.json');
+	const fs = require('fs');
+	application.config = JSON.parse(fs.readFileSync('config.json', 'utf-8'))
 
 	Object.freeze(application.config);
 
