@@ -5,6 +5,7 @@ import MultiSelect from './questions/MultiSelect.js'
 import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
 export default function ViewSurvey(props){
+  
   const qobj = {
     id: 1,
     type: 0,

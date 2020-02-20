@@ -3,12 +3,11 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
+import Radio from '@material-ui/core/Radio';
 export default function MultipleChoice(props){
   return(
      <Card>
       <CardContent>
-
         <Typography variant="h5"component="h2">
         Question: {props.question_content}
         </Typography>
@@ -24,5 +23,5 @@ export default function MultipleChoice(props){
 }
 
 function returnRs(rs){
-  return rs.map((r) => r = r + " ")
+  return rs.map((r) =><div><br/><label><Radio />{r}</label></div>)
 }
