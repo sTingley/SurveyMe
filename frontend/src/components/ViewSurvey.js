@@ -18,7 +18,7 @@ export default function ViewSurvey(props){
     type: 1,
     category: 'agile',
     content: 'Who is agile?',
-    response: ["me","you","everyone","noone"],
+    response: ["me","you","everyone","noone",'her'],
     selected: ["me"]
   }
   const qobj3 = {
@@ -27,7 +27,7 @@ export default function ViewSurvey(props){
     category: 'agile',
     content: "Who is agile?",
     response: ["me", "you", "him", "her"],
-    selected: ["me", "you"]
+    selected: ["me", "you","her"]
   }
   const surveyobj = {
     id: 1,
@@ -35,7 +35,8 @@ export default function ViewSurvey(props){
     category: 'agile',
     questions: [qobj,qobj2,qobj3],
     dateCreated: "1/1/2020",
-    public: true
+    public: true,
+    mode: 'view'
   }
 
 

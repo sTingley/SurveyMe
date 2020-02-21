@@ -11,11 +11,12 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
-    application.endpoints.get('api/v1/getSurveys', (req, res) => {
+    application.endpoints.get('/api/v1/getSurveys', (req, res) => {
 
-        if (!req.body) {
-            res.status(404).send({ message: 'must send a request.body' })
-        }
+        // if (!req.body) {
+        //     res.status(404).send({ message: 'must send a request.body' })
+        // }
+        application.logger.debug('inside getSurveys');
 
         const collection = db.collection('surveys')
         collection.find({}).toArray(function (err, docs) {
@@ -33,7 +34,7 @@ const expose = async (application, db) => {
     application.endpoints.post('/api/v1/addSurvey', (req, res) => {
 
         if (!req.body) {
-            res.status(404).send({ message: 'must send a request.body' })
+            res.status(400).send({ message: 'must send a request.body' })
         }
         //TODO-Check if the stock already exists before adding to the DB
         const collection = db.collection('surveys');

@@ -4,8 +4,21 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export default function MultiSelect(props) {
+
+  function returnRs(rs) {
+    return rs.map((r) => {
+      if (props.question_selection.includes(r))
+        return <FormControlLabel disabled value={r} control={<Checkbox checked />} label={r} />
+      else
+        return <FormControlLabel disabled value={r} control={<Checkbox />} label={r} />
+    }
+    )
+  }
+
   return (
     <Card>
       <CardContent>
@@ -15,15 +28,7 @@ export default function MultiSelect(props) {
         <Typography variant="h7" component="p">
           Responses: {returnRs(props.question_response)}
         </Typography>
-        <Typography variant="h7" component="p2">
-          Selected Responses: {returnRs(props.question_selection)}
-        </Typography>
       </CardContent>
     </Card>
   )
 }
-
-function returnRs(rs) {
-  return rs.map((r) => <div><br/><label><Checkbox/>{r}</label></div>)
-}
-
