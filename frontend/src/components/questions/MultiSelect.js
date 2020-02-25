@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 
 export default function MultiSelect(props) {
 
@@ -18,7 +19,7 @@ export default function MultiSelect(props) {
     }
     )
   }
-
+  if(props.mode)
   return (
     <Card>
       <CardContent>
@@ -31,4 +32,16 @@ export default function MultiSelect(props) {
       </CardContent>
     </Card>
   )
+  else
+    return(
+      <Card>
+      <CardContent>
+      <CardContent>
+        <TextField label="Enter Question Here..." variant="outlined" />
+        <br></br>
+        <TextField label="Enter Response Here..." variant="outlined" />
+      </CardContent>
+      </CardContent>
+    </Card>
+    )
 }
