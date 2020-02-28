@@ -15,8 +15,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 export default function MakeASurvey() {
+  
   const [questionType, setQuestionType] = useState("");
-  const [emptyQuestions, setemptyQuestions] = useState([])
+  const [emptyQuestions, setEmptyQuestions] = useState([])
+
   const cardstyle = {
     display: 'flex'
 
@@ -29,13 +31,13 @@ export default function MakeASurvey() {
   const generateQuestionBox = (e) => {
     switch (questionType){
       case 0:
-        setemptyQuestions(emptyQuestions.concat(<ShortAnswer/>))
+        setEmptyQuestions(emptyQuestions.concat(<ShortAnswer/>))
         break;
       case 1:
-        setemptyQuestions(emptyQuestions.concat(<MultipleChoice/>))
+        setEmptyQuestions(emptyQuestions.concat(<MultipleChoice/>))
         break;
       case 2:
-        setemptyQuestions(emptyQuestions.concat(<MultiSelect/>))
+        setEmptyQuestions(emptyQuestions.concat(<MultiSelect/>))
     }
   }
   return (
@@ -54,9 +56,7 @@ export default function MakeASurvey() {
       <Button onClick={generateQuestionBox}>Generate Question Box</Button>
     </Card>
       <Card>
-      <ul>{emptyQuestions.map((q) => {
-        return (q)
-      })}</ul>
+      <ul>{emptyQuestions.map((q) => {return(q)})}</ul>
     </Card>
     </div>
   )
