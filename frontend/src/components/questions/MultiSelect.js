@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+
+
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -15,6 +18,7 @@ import Divider from '@material-ui/core/Divider';
 export default function MultiSelect(props) {
 
   const [responses, setResponses] = useState([]);
+
   function returnRs(rs) {
     return rs.map((r) => {
       if (props.question_selection.includes(r))
@@ -25,9 +29,15 @@ export default function MultiSelect(props) {
     )
   }
   const generateResponse = (e) =>{
-    setResponses(responses.concat(<TextField label="Enter Response Here..." variant="outlined" />))
+    setResponses(responses.concat(<p><TextField key={responses.length} label="Enter Response Here..." variant="outlined" />
+    <IconButton><RemoveIcon onClick={removeResponse}/></IconButton></p>))
   }
-  
+
+  const removeResponse = (e) =>{
+    console.log(e)
+    console.log(responses)
+  }
+
   if(props.mode)
   return (
     <Card>
