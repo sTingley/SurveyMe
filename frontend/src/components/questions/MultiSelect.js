@@ -19,6 +19,7 @@ export default function MultiSelect(props) {
 
   const [responses, setResponses] = useState([]);
 
+
   function returnRs(rs) {
     return rs.map((r) => {
       if (props.question_selection.includes(r))
@@ -28,9 +29,24 @@ export default function MultiSelect(props) {
     }
     )
   }
+
+  const handleChange =(e)=> {
+    props.onChange(e.target.name, e.target.value)
+  }
+
   const generateResponse = (e) =>{
-    setResponses(responses.concat(<p><TextField key={responses.length} label="Enter Response Here..." variant="outlined" />
-    <IconButton><RemoveIcon onClick={removeResponse}/></IconButton></p>))
+    setResponses(responses.concat(
+    <p>
+    <TextField 
+    key={responses.length+1}
+    onChange={handleChange}
+    name={`Response${responses.length + 1}`}
+    label="Enter Response Here..."
+    variant="outlined" />
+    <IconButton>
+      <RemoveIcon onClick={removeResponse}/>
+    </IconButton>
+    </p>))
   }
 
   const removeResponse = (e) =>{
@@ -38,7 +54,7 @@ export default function MultiSelect(props) {
     console.log(responses)
   }
 
-  if(props.mode)
+  if(props.mode != "edit")
   return (
     <Card>
       <CardContent>
@@ -55,7 +71,7 @@ export default function MultiSelect(props) {
     return(
       <Card>
       <CardContent>
-        <TextField label="Enter Question Here..." variant="outlined" />
+        <TextField onChange={handleChange} name={"question_content"} label="Enter Question Here..." variant="outlined" />
         <IconButton>
           <AddIcon onClick={generateResponse}/>
         </IconButton>
