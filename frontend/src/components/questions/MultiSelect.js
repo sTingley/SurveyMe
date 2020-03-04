@@ -31,8 +31,15 @@ export default function MultiSelect(props) {
   }
 
   const handleChange =(e)=> {
+
+    //if it is a response it must have a qid prop
+    if(e.target.qid){
+      props.onChange(`Q${e.target.qid}`,e.target.value)
+    }
     props.onChange(e.target.name, e.target.value)
+  
   }
+
 
   const generateResponse = (e) =>{
     setResponses(responses.concat(
@@ -42,6 +49,7 @@ export default function MultiSelect(props) {
     onChange={handleChange}
     name={`Response${responses.length + 1}`}
     label="Enter Response Here..."
+    qid={props.question_id}
     variant="outlined" />
     <IconButton>
       <RemoveIcon onClick={removeResponse}/>
@@ -71,7 +79,7 @@ export default function MultiSelect(props) {
     return(
       <Card>
       <CardContent>
-        <TextField onChange={handleChange} name={"question_content"} label="Enter Question Here..." variant="outlined" />
+        <TextField onChange={handleChange} name={`Q${props.question_id}`} label="Enter Question Here..." variant="outlined" />
         <IconButton>
           <AddIcon onClick={generateResponse}/>
         </IconButton>
