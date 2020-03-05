@@ -30,61 +30,61 @@ export default function MultiSelect(props) {
     )
   }
 
-  const handleChange =(e)=> {
-
-    //if it is a response it must have a qid prop
-    if(e.target.qid){
-      props.onChange(`Q${e.target.qid}`,e.target.value)
-    }
-    props.onChange(e.target.name, e.target.value)
-  
+  const handleQChange = (e) => {
+      console.log('q change')
+      props.onChange(e.target.name, e.target.value)
+  }
+  const handleRChange = (e) => {
+      console.log(`r change`)
+      props.onChange(e.target.name, e.target.value, props.question_id)
   }
 
+  const generateResponse = (e) => {
 
-  const generateResponse = (e) =>{
+    props.generateResponseObj(props.question_id, responses.length)
+
     setResponses(responses.concat(
-    <p>
-    <TextField 
-    key={responses.length+1}
-    onChange={handleChange}
-    name={`Response${responses.length + 1}`}
-    label="Enter Response Here..."
-    qid={props.question_id}
-    variant="outlined" />
-    <IconButton>
-      <RemoveIcon onClick={removeResponse}/>
-    </IconButton>
-    </p>))
-  }
-
-  const removeResponse = (e) =>{
-    console.log(e)
-    console.log(responses)
-  }
-
-  if(props.mode != "edit")
-  return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">
-          Question: {props.question_content}
-        </Typography>
-        <Typography variant="h7" component="p">
-          Responses: {returnRs(props.question_response)}
-        </Typography>
-      </CardContent>
-    </Card>
-  )
-  else
-    return(
-      <Card>
-      <CardContent>
-        <TextField onChange={handleChange} name={`Q${props.question_id}`} label="Enter Question Here..." variant="outlined" />
+      <p>
+        <TextField
+          isResponse={true}
+          key={responses.length}
+          onChange={handleRChange}
+          name={responses.length}
+          label="Enter Response Here..."
+          variant="outlined" />
         <IconButton>
-          <AddIcon onClick={generateResponse}/>
+          <RemoveIcon />
         </IconButton>
-        <ul>{responses.map((r)=>{return(r)})}</ul>
-      </CardContent>
-    </Card>
+      </p>))
+  }
+
+  if (props.mode != "edit")
+    return (
+      <Card>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            Question: {props.question_content}
+          </Typography>
+          <Typography variant="h7" component="p">
+            Responses: {returnRs(props.question_response)}
+          </Typography>
+        </CardContent>
+      </Card>
+    )
+  else
+    return (
+      <Card>
+        <CardContent>
+          <TextField
+            onChange={handleQChange}
+            name={props.question_id}
+            label="Enter Question Here..."
+            variant="outlined" />
+          <IconButton>
+            <AddIcon onClick={generateResponse} />
+          </IconButton>
+          <ul>{responses.map((r) => { return (r) })}</ul>
+        </CardContent>
+      </Card>
     )
 }

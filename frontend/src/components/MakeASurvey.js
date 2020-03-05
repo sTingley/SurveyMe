@@ -32,30 +32,66 @@ export default function MakeASurvey() {
     setQuestionType(e.target.value)
   }
 
-  function handleMultiChange(field, value) {
-    if(field[0]==="Q"){
-      setQuestionState(Object.assign(questionState, questionState.Q1.responses.push(value)))
+
+
+  function handleMultiChange(name, value, question_id){
+    if(question_id == undefined){
+    let obj = questionState;
+    obj.questions[name].content = value;
+    setQuestionState(obj);
     }
     else{
-      setQuestionState(Object.assign(questionState, questionState.Q1.content = value))
+     let obj = questionState;
+     obj.questions[question_id].responses[name].response_content = value;
+     setQuestionState(obj);
     }
   }
 
+  const generateResponseObj = (question_id, response_id) => {
 
+    let obj = questionState;
 
+    obj.questions[question_id].responses.push({
+      response_id: response_id,
+      response_content: "",
+      selected: false
+    });
+
+    setQuestionState(obj);
+
+  }
 
 
   const generateQuestionBox = (e) => {
-    setQuestionState(Object.assign(questionState, {
-      [`Q${emptyQuestions.length + 1}`]: {
-        [`id`]: `${emptyQuestions.length + 1}`,
+
+    if (emptyQuestions.length === 0) {
+      setQuestionState(Object.assign(questionState, {
+        [`questions`]: [
+          {
+            [`id`]: `${emptyQuestions.length}`,
+            [`content`]: "",
+            [`category`]: "",
+            [`type`]: questionType,
+            [`responses`]: []
+          }
+        ]
+      }))
+    }
+
+    else {
+
+      let obj = questionState;
+      obj.questions.push({
+        [`id`]: `${emptyQuestions.length}`,
         [`content`]: "",
         [`category`]: "",
         [`type`]: questionType,
-        [`responses`]: [],
-        [`selected`]: []
-      }
-    }))
+        [`responses`]: []
+      })
+
+      setQuestionState(obj)
+
+    }
     switch (questionType) {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
@@ -68,9 +104,10 @@ export default function MakeASurvey() {
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
           <MultiSelect
-            question_id={emptyQuestions.length + 1}
+            question_id={emptyQuestions.length}
             onChange={handleMultiChange}
             mode={"edit"}
+            generateResponseObj={generateResponseObj}
           />))
     }
   }
