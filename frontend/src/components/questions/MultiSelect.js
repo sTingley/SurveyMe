@@ -32,11 +32,11 @@ export default function MultiSelect(props) {
 
   const handleQChange = (e) => {
       console.log('q change')
-      props.onChange(e.target.name, e.target.value)
+      props.onChange(e.target.id, e.target.value)
   }
   const handleRChange = (e) => {
       console.log(`r change`)
-      props.onChange(e.target.name, e.target.value, props.question_id)
+      props.onChange(e.target.id, e.target.value, props.question_id)
   }
 
   const generateResponse = (e) => {
@@ -46,10 +46,9 @@ export default function MultiSelect(props) {
     setResponses(responses.concat(
       <p>
         <TextField
-          isResponse={true}
           key={responses.length}
           onChange={handleRChange}
-          name={responses.length}
+          id={responses.length}
           label="Enter Response Here..."
           variant="outlined" />
         <IconButton>
@@ -77,9 +76,9 @@ export default function MultiSelect(props) {
         <CardContent>
           <TextField
             onChange={handleQChange}
-            name={props.question_id}
+            id={props.question_id}
             label="Enter Question Here..."
-            variant="outlined" />
+            variant="filled" />
           <IconButton>
             <AddIcon onClick={generateResponse} />
           </IconButton>
