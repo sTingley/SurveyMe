@@ -30,12 +30,15 @@ export default function MultiSelect(props) {
     )
   }
 
+
+  const removeResponse = (e) => {
+    setResponses(responses.filter(r =>  r.id != e.target.id ))
+    props.removeResponse(e.target.id, props.question_id)
+  }
   const handleQChange = (e) => {
-      console.log('q change')
       props.onChange(e.target.id, e.target.value)
   }
   const handleRChange = (e) => {
-      console.log(`r change`)
       props.onChange(e.target.id, e.target.value, props.question_id)
   }
 
@@ -52,7 +55,7 @@ export default function MultiSelect(props) {
           label="Enter Response Here..."
           variant="outlined" />
         <IconButton>
-          <RemoveIcon />
+          <RemoveIcon onClick={removeResponse}/>
         </IconButton>
       </p>))
   }

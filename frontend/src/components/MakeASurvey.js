@@ -32,7 +32,11 @@ export default function MakeASurvey() {
     setQuestionType(e.target.value)
   }
 
-
+  const removeResponse = (response_id, question_id) => {
+    let obj = questionState;
+    obj.questions[question_id].responses = obj.questions[question_id].responses.filter(r=> r.id != response_id)
+    setQuestionState(obj)
+  }
 
   function handleMultiChange(name, value, question_id){
     if(question_id == undefined){
@@ -104,6 +108,7 @@ export default function MakeASurvey() {
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
           <MultiSelect
+            removeResponse={removeResponse}
             question_id={emptyQuestions.length}
             onChange={handleMultiChange}
             mode={"edit"}
