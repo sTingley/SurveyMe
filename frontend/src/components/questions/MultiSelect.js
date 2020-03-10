@@ -15,10 +15,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 
+import * as UUID from "uuid";
+
 export default function MultiSelect(props) {
 
   const [responses, setResponses] = useState([]);
-
+  
 
   function returnRs(rs) {
     return rs.map((r) => {
@@ -43,7 +45,7 @@ export default function MultiSelect(props) {
   }
 
   const generateResponse = () => {
-    let new_response_id = responses.length;
+    let new_response_id = UUID.v4();
     props.generateResponseObj(props.question_id, new_response_id)
     setResponses(responses.concat(
       <div>
@@ -53,7 +55,6 @@ export default function MultiSelect(props) {
           id={new_response_id}
           label="Enter Response Here..."
           variant="standard" />
-
         <IconButton>
           <RemoveIcon onClick={() => removeResponse(new_response_id)} />
         </IconButton>
@@ -80,7 +81,7 @@ export default function MultiSelect(props) {
       <Card>
         <CardContent>
           <Typography>
-            Question {props.question_id}
+          Multiple Selection Question {props.question_id}
           </Typography>
           <TextField
             onChange={handleQChange}

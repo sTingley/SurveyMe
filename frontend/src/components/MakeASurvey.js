@@ -16,6 +16,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Typography } from '@material-ui/core';
 
+import * as UUID from "uuid";
+
+
 export default function MakeASurvey() {
 
   const [questionState, setQuestionState] = useState({})
@@ -66,11 +69,13 @@ export default function MakeASurvey() {
   
 
   const generateQuestionBox = (e) => {
+    let new_question_id = UUID.v4();
+
     if (emptyQuestions.length === 0) {
       setQuestionState(Object.assign(questionState, {
         [`questions`]: [
           {
-            [`id`]: `${emptyQuestions.length}`,
+            [`id`]: `${new_question_id}`,
             [`content`]: "",
             [`category`]: "",
             [`type`]: questionType,
@@ -82,7 +87,7 @@ export default function MakeASurvey() {
     else {
       let obj = questionState;
       obj.questions.push({
-        [`id`]: `${emptyQuestions.length}`,
+        [`id`]: `${new_question_id}`,
         [`content`]: "",
         [`category`]: "",
         [`type`]: questionType,
@@ -92,6 +97,9 @@ export default function MakeASurvey() {
       setQuestionState(obj)
 
     }
+
+
+
     switch (questionType) {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
@@ -100,9 +108,9 @@ export default function MakeASurvey() {
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
           <MultipleChoice
-            key={`${emptyQuestions.length}`}
+            key={`${new_question_id}`}
             removeResponse={removeResponse}
-            question_id={emptyQuestions.length}
+            question_id={new_question_id}
             onChange={handleMultiChange}
             mode={"edit"}
             generateResponseObj={generateResponseObj}
@@ -113,7 +121,7 @@ export default function MakeASurvey() {
           <MultiSelect
             key={`${emptyQuestions.length}`}
             removeResponse={removeResponse}
-            question_id={emptyQuestions.length}
+            question_id={new_question_id}
             onChange={handleMultiChange}
             mode={"edit"}
             generateResponseObj={generateResponseObj}

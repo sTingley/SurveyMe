@@ -16,6 +16,11 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Radio from '@material-ui/core/Radio';
 
+
+import * as UUID from "uuid";
+
+
+
 export default function MultipleChoice(props) {
 
   const [responses, setResponses] = useState([]);
@@ -45,8 +50,13 @@ export default function MultipleChoice(props) {
       props.onChange(e.target.id, e.target.value, props.question_id)
   }
 
+  const handleChange = event => {
+    setValue(event.target.value);
+  };
+
+
   const generateResponse = () => {
-    let new_response_id = responses.length;
+    let new_response_id = UUID.v4()
     props.generateResponseObj(props.question_id, new_response_id)
     setResponses(responses.concat(
       <div>
@@ -66,9 +76,9 @@ export default function MultipleChoice(props) {
   }
   
 
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
+  
+
+
   if (props.mode != "edit")
   return (
     <Card>
@@ -89,7 +99,7 @@ export default function MultipleChoice(props) {
       <Card>
       <CardContent>
        <Typography>
-         Question {props.question_id}
+        Multiple Choice Question {props.question_id}
        </Typography>
         <TextField
           onChange={handleQChange}
