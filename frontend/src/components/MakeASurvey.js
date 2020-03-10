@@ -63,7 +63,7 @@ export default function MakeASurvey() {
     });
     setQuestionState(obj);
   }
-
+  
 
   const generateQuestionBox = (e) => {
     if (emptyQuestions.length === 0) {
@@ -99,8 +99,8 @@ export default function MakeASurvey() {
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
-          <MultipleChoice 
-          key={`${emptyQuestions.length}`}
+          <MultipleChoice
+            key={`${emptyQuestions.length}`}
             removeResponse={removeResponse}
             question_id={emptyQuestions.length}
             onChange={handleMultiChange}

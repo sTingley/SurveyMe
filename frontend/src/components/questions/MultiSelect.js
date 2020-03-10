@@ -32,14 +32,14 @@ export default function MultiSelect(props) {
 
 
   const removeResponse = (response_id) => {
-    setResponses(responses.filter(r =>  r.id != response_id))
+    setResponses(responses.filter(r => r.id != response_id))
     props.removeResponse(response_id, props.question_id)
   }
   const handleQChange = (e) => {
-      props.onChange(e.target.id, e.target.value)
+    props.onChange(e.target.id, e.target.value)
   }
   const handleRChange = (e) => {
-      props.onChange(e.target.id, e.target.value, props.question_id)
+    props.onChange(e.target.id, e.target.value, props.question_id)
   }
 
   const generateResponse = () => {
@@ -47,19 +47,19 @@ export default function MultiSelect(props) {
     props.generateResponseObj(props.question_id, new_response_id)
     setResponses(responses.concat(
       <div>
-         <TextField
+        <TextField
           key={new_response_id}
           onChange={handleRChange}
           id={new_response_id}
           label="Enter Response Here..."
           variant="standard" />
-         
+
         <IconButton>
-          <RemoveIcon onClick={()=>removeResponse(new_response_id)}/>
+          <RemoveIcon onClick={() => removeResponse(new_response_id)} />
         </IconButton>
         <br></br>
-        </div>
-      ))
+      </div>
+    ))
   }
 
   if (props.mode != "edit")
@@ -79,9 +79,9 @@ export default function MultiSelect(props) {
     return (
       <Card>
         <CardContent>
-         <Typography>
-           Question {props.question_id}
-         </Typography>
+          <Typography>
+            Question {props.question_id}
+          </Typography>
           <TextField
             onChange={handleQChange}
             id={`${props.question_id}`}
@@ -94,4 +94,4 @@ export default function MultiSelect(props) {
         </CardContent>
       </Card>
     )
-}
+} 
