@@ -34,40 +34,38 @@ export default function MakeASurvey() {
 
   const removeResponse = (response_id, question_id) => {
     let obj = questionState;
-    obj.questions[question_id].responses = obj.questions[question_id].responses.filter(r=> r.id != response_id)
+    console.log(`response id: ${response_id}`)
+    console.log(`question id: ${question_id}`)
+    obj.questions[question_id].responses = obj.questions[question_id].responses.filter(r => r.response_id != response_id)
     setQuestionState(obj)
+
   }
 
-  function handleMultiChange(name, value, question_id){
-    if(question_id == undefined){
-    let obj = questionState;
-    obj.questions[name].content = value;
-    setQuestionState(obj);
+  function handleMultiChange(name, value, question_id) {
+    if (question_id == undefined) {
+      let obj = questionState;
+      obj.questions[name].content = value;
+      setQuestionState(obj);
     }
-    else{
-     let obj = questionState;
-     obj.questions[question_id].responses[name].response_content = value;
-     setQuestionState(obj);
+    else {
+      let obj = questionState;
+      obj.questions[question_id].responses[name].response_content = value;
+      setQuestionState(obj);
     }
   }
 
   const generateResponseObj = (question_id, response_id) => {
-
     let obj = questionState;
-
     obj.questions[question_id].responses.push({
       response_id: response_id,
       response_content: "",
       selected: false
     });
-
     setQuestionState(obj);
-
   }
 
 
   const generateQuestionBox = (e) => {
-
     if (emptyQuestions.length === 0) {
       setQuestionState(Object.assign(questionState, {
         [`questions`]: [
@@ -81,9 +79,7 @@ export default function MakeASurvey() {
         ]
       }))
     }
-
     else {
-
       let obj = questionState;
       obj.questions.push({
         [`id`]: `${emptyQuestions.length}`,
@@ -103,11 +99,19 @@ export default function MakeASurvey() {
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
-          <MultipleChoice />))
+          <MultipleChoice 
+          key={`${emptyQuestions.length}`}
+            removeResponse={removeResponse}
+            question_id={emptyQuestions.length}
+            onChange={handleMultiChange}
+            mode={"edit"}
+            generateResponseObj={generateResponseObj}
+          />))
         break;
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
           <MultiSelect
+            key={`${emptyQuestions.length}`}
             removeResponse={removeResponse}
             question_id={emptyQuestions.length}
             onChange={handleMultiChange}
@@ -131,6 +135,7 @@ export default function MakeASurvey() {
           style={{ minWidth: 120 }}
           labelId="demo-simple-select-label"
           onChange={handleChange}
+          value={questionType}
         >
           <MenuItem value={1}>MultipleChoice</MenuItem>
           <MenuItem value={2}>MultiSelect</MenuItem>
