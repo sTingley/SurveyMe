@@ -31,6 +31,24 @@ export default function MakeASurvey() {
 
   }
 
+  const sendSurvey = () => {
+    console.log(questionState)
+    fetch('http://localhost:5000/api/v1/addSurvey', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(questionState),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
   const handleChange = (e) => {
     setQuestionType(e.target.value)
   }
@@ -41,42 +59,43 @@ export default function MakeASurvey() {
     let rindex = undefined;
     console.log(`response id: ${response_id}`)
     console.log(`question id: ${question_id}`)
-    obj.questions[findQinObj(obj, question_id)].responses = obj.questions[findQinObj(obj, question_id)].responses.filter(r => r.response_id  !== response_id)
+    obj.questions[findQinObj(obj, question_id)].responses = obj.questions[findQinObj(obj, question_id)].responses.filter(r => r.response_id !== response_id)
     setQuestionState(obj)
 
   }
 
-  function handleMultiChange(name, value, question_id) 
-  {
+
+
+  function handleMultiChange(name, value, question_id) {
     if (question_id == undefined) {
       let obj = questionState;
-      obj.questions[name].content = value;
+      obj.questions[findQinObj(obj, name)].content = value;
       setQuestionState(obj);
     }
     else {
       let obj = questionState;
-      obj.questions[question_id].responses[name].response_content = value;
+      obj.questions[findQinObj(obj, question_id)].responses[findRinQobj(obj, question_id, name)].response_content = value;
       setQuestionState(obj);
     }
   }
 
-  function findRinQobj(obj,question_id, response_id){
-    for(let i=0; i < obj.quetions[findQinObj(obj, question_id)].responses.length; i ++){
-      if(obj.questions[findQinObj(obj, question_id)].responses[i].response_id === response_id)
-      return i;
+  function findRinQobj(obj, question_id, response_id) {
+    for (let i = 0; i < obj.questions[findQinObj(obj, question_id)].responses.length; i++) {
+      if (obj.questions[findQinObj(obj, question_id)].responses[i].response_id === response_id)
+        return i;
     }
   }
 
-  function findQinObj(obj,question_id){
-    for (let i = 0; i < obj.questions.length; i ++){
-      if(obj.questions[i].id === question_id)
+  function findQinObj(obj, question_id) {
+    for (let i = 0; i < obj.questions.length; i++) {
+      if (obj.questions[i].id === question_id)
         return i;
     }
 
   }
   const generateResponseObj = (question_id, response_id) => {
     let obj = questionState;
-  
+
     obj.questions[findQinObj(obj, question_id)].responses.push({
       response_id: response_id,
       response_content: "",
@@ -85,7 +104,7 @@ export default function MakeASurvey() {
 
     setQuestionState(obj);
   }
-  
+
 
   const generateQuestionBox = (e) => {
     let new_question_id = UUID.v4();
@@ -122,7 +141,14 @@ export default function MakeASurvey() {
     switch (questionType) {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
-          <ShortAnswer />))
+          <ShortAnswer
+            key={`${new_question_id}`}
+            removeResponse={removeResponse}
+            question_id={new_question_id}
+            onChange={handleMultiChange}
+            mode={"edit"}
+            generateResponseObj={generateResponseObj}
+          />))
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
@@ -175,7 +201,7 @@ export default function MakeASurvey() {
       </Card>
       <Card>
         <CardAction>
-          <Button onClick={(e) => console.log(questionState)}>Submit Survey</Button>
+          <Button onClick={() => sendSurvey()}>Submit Survey</Button>
         </CardAction>
       </Card>
     </div>

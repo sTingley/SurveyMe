@@ -36,10 +36,13 @@ const expose = async (application, db) => {
         if (!req.body) {
             res.status(400).send({ message: 'must send a request.body' })
         }
+
+        console.log(req)
+
         //TODO-Check if the stock already exists before adding to the DB
         const collection = db.collection('surveys');
         //insert a key 'stock' with a value 
-        collection.insertOne(req.body.survey, (err, result) => {
+        collection.insertOne(req.body, (err, result) => {
             assert.equal(err, null);
             res.status(200).send({ message: 'survey added' });
         })

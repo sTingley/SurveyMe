@@ -55,9 +55,7 @@ export default function MultiSelect(props) {
           id={new_response_id}
           label="Enter Response Here..."
           variant="standard" />
-        <IconButton>
-          <RemoveIcon onClick={() => removeResponse(new_response_id)} />
-        </IconButton>
+        <input type="button" value="-"  onClick={() => removeResponse(new_response_id)} />
         <br></br>
       </div>
     ))
@@ -87,10 +85,8 @@ export default function MultiSelect(props) {
             onChange={handleQChange}
             id={`${props.question_id}`}
             label="Enter Question Here..."
-            variant="filled" />
-          
-            <input type="button" value="+" onClick={generateResponse} />
-          
+            variant="filled" /> 
+            <input type="button" value="+" onClick={generateResponse} /> 
           <ul>{responses.map((r) => { return (r) })}</ul>
         </CardContent>
       </Card>

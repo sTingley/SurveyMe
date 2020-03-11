@@ -2,7 +2,6 @@ const express = require("express");
 const log4js = require('log4js');
 const routes = require('./routes');
 const assert = require('assert');
-
 //MongoClient.connect("mongodb+srv://m001-student:m001-mongodb-basics@cluster0-rmf3a.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true },
 
 const connectMongo = async (application) => {
@@ -53,7 +52,6 @@ const authenticate = async (application) => {
 const start = async (application) => {
 
 	application.logger.info('load any middleware and connecting to db ...\n');
-
 	application.endpoints.use(express.json());
 	application.endpoints.use((req, res, next) => {
 		res.set('Access-Control-Allow-Origin', '*');
@@ -93,7 +91,7 @@ const IngressService = () => {
 	const application = {};
 
 	const fs = require('fs');
-	application.config = JSON.parse(fs.readFileSync('config.json', 'utf-8'))
+	application.config = JSON.parse(fs.readFileSync('../config.json', 'utf-8'))
 
 	Object.freeze(application.config);
 

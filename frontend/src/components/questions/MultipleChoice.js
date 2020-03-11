@@ -67,9 +67,7 @@ export default function MultipleChoice(props) {
           label="Enter Response Here..."
           variant="standard" />
          
-        <IconButton>
-          <RemoveIcon onClick={()=>removeResponse(new_response_id)}/>
-        </IconButton>
+         <input type="button" value="-"  onClick={() => removeResponse(new_response_id)} />
         <br></br>
         </div>
       ))
@@ -102,13 +100,12 @@ export default function MultipleChoice(props) {
         Multiple Choice Question {props.question_id}
        </Typography>
         <TextField
+          key={`${props.question_id}`}
           onChange={handleQChange}
           id={`${props.question_id}`}
           label="Enter Question Here..."
           variant="filled" />
-        <IconButton>
-          <AddIcon onClick={generateResponse} />
-        </IconButton>
+        <input type="button" value="+" onClick={generateResponse} /> 
         <ul>{responses.map((r) => { return (r) })}</ul>
       </CardContent>
     </Card>

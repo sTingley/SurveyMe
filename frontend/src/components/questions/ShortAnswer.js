@@ -6,7 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
 export default function ShortAnswer(props){
-  if(props.mode)
+
+  const handleQChange = (e) => {
+    props.onChange(e.target.id, e.target.value)
+}
+
+  if(props.mode != 'edit')
   return (
     <Card>
     <CardContent>
@@ -23,7 +28,15 @@ export default function ShortAnswer(props){
   return(
     <Card>
       <CardContent>
-        <TextField label="Enter Question Here..." variant="outlined" />
+      <Typography>
+        Short Answer Choice Question {props.question_id}
+       </Typography>
+        <TextField 
+          key={`${props.question_id}`}
+          onChange={handleQChange}
+          id={`${props.question_id}`}
+          label="Enter Question Here..."
+          variant="filled" />
       </CardContent>
     </Card>
   )
