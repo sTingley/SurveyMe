@@ -8,7 +8,22 @@ import {
 import SurveyDashboard from './components/SurveyDashboard';
 import MakeASurvey from './components/MakeASurvey';
 
+
+
+
 export default function App() {
+
+  // const getSurveys =()=>{
+  //   fetch('http://localhost:5000/api/v1/getSuvey',{method: 'GET'})
+  //   .then((res)=> res.json())
+  //   .then((data) => {
+  //     setQuestions(questions.concat(data))
+  //   })
+
+  // }
+
+
+
   return (
     <Router>
       <div>

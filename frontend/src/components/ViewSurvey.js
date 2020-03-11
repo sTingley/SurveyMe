@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MultipleChoice from './questions/MultipleChoice.js'
 import ShortAnswer from './questions/ShortAnswer.js'
 import MultiSelect from './questions/MultiSelect.js'
@@ -6,16 +6,38 @@ import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
 export default function ViewSurvey(props){
   
-  const [questions, setQuestions] = useState([])
-  const getSurveys =()=>{
-    fetch('http://localhost:5000/api/v1/getSuvey',{method: 'GET'})
-    .then((res)=> res.json())
-    .then((data) => {
-      setQuestions(questions.concat(data))
-    })
-
+  const qobj = {
+    id: 1,
+    type: 0,
+    category: "agile",
+    content: "Are you agile?",
+    response: "No"
   }
-  
+  const qobj2 = {
+    id:2,
+    type: 1,
+    category: 'agile',
+    content: 'Who is agile?',
+    response: ["me","you","everyone","noone",'her'],
+    selected: ["me"]
+  }
+  const qobj3 = {
+    id:3,
+    type: 2,
+    category: 'agile',
+    content: "Who is agile?",
+    response: ["me", "you", "him", "her"],
+    selected: ["me", "you","her"]
+  }
+  const surveyobj = {
+    id: 1,
+    title: "agile survey",
+    category: 'agile',
+    questions: [qobj,qobj2,qobj3],
+    dateCreated: "1/1/2020",
+    public: true,
+    mode: 'view'
+  }
   return(
     <div>
       <Typography variant="h4"component="h2">

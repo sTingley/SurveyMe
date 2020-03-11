@@ -3,10 +3,10 @@ import ShortAnswer from './questions/ShortAnswer';
 import MultipleChoice from './questions/MultipleChoice';
 import MultiSelect from './questions/MultiSelect';
 
-
 import Card from '@material-ui/core/Card';
 import CardAction from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField';
 
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,6 +15,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 import * as UUID from "uuid";
 
@@ -26,12 +28,31 @@ export default function MakeASurvey() {
   const [questionType, setQuestionType] = useState("");
   const [emptyQuestions, setEmptyQuestions] = useState([])
 
+  const useStyles = makeStyles(theme => ({
+
+    root: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    padding: '0 10px',
+      '& > *': {
+        margin: theme.spacing(2),
+      },
+
+    },
+  }));
+
+  const styles = useStyles();
+
   const cardstyle = {
     display: 'flex'
 
   }
 
   const sendSurvey = () => {
+
     console.log(questionState)
     fetch('http://localhost:5000/api/v1/addSurvey', {
       method: 'POST',
@@ -56,9 +77,6 @@ export default function MakeASurvey() {
   const removeResponse = (response_id, question_id) => {
 
     let obj = questionState;
-    let rindex = undefined;
-    console.log(`response id: ${response_id}`)
-    console.log(`question id: ${question_id}`)
     obj.questions[findQinObj(obj, question_id)].responses = obj.questions[findQinObj(obj, question_id)].responses.filter(r => r.response_id !== response_id)
     setQuestionState(obj)
 
@@ -141,6 +159,7 @@ export default function MakeASurvey() {
     switch (questionType) {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
+          <div>
           <ShortAnswer
             key={`${new_question_id}`}
             removeResponse={removeResponse}
@@ -148,10 +167,12 @@ export default function MakeASurvey() {
             onChange={handleMultiChange}
             mode={"edit"}
             generateResponseObj={generateResponseObj}
-          />))
+          /><br></br>
+          </div>))
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
+          <div>
           <MultipleChoice
             key={`${new_question_id}`}
             removeResponse={removeResponse}
@@ -159,10 +180,12 @@ export default function MakeASurvey() {
             onChange={handleMultiChange}
             mode={"edit"}
             generateResponseObj={generateResponseObj}
-          />))
+          /><br></br>
+          </div>))
         break;
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
+          <div>
           <MultiSelect
             key={`${emptyQuestions.length}`}
             removeResponse={removeResponse}
@@ -170,12 +193,18 @@ export default function MakeASurvey() {
             onChange={handleMultiChange}
             mode={"edit"}
             generateResponseObj={generateResponseObj}
-          />))
+            /><br></br>
+          </div>))
     }
   }
 
+
+
+
+
+
   return (
-    <div>
+    <Paper className={styles.root} style={{ maxWidth: 1000}}>
       <Card>
         <Typography>
           Enter Survey Title Here..
@@ -204,6 +233,6 @@ export default function MakeASurvey() {
           <Button onClick={() => sendSurvey()}>Submit Survey</Button>
         </CardAction>
       </Card>
-    </div>
+  </Paper>
   )
 }
