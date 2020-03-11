@@ -88,9 +88,9 @@ export default function MultiSelect(props) {
             id={`${props.question_id}`}
             label="Enter Question Here..."
             variant="filled" />
-          <IconButton>
-            <AddIcon onClick={generateResponse} />
-          </IconButton>
+          
+            <input type="button" value="+" onClick={generateResponse} />
+          
           <ul>{responses.map((r) => { return (r) })}</ul>
         </CardContent>
       </Card>

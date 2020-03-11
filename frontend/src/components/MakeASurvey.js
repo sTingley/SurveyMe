@@ -36,15 +36,18 @@ export default function MakeASurvey() {
   }
 
   const removeResponse = (response_id, question_id) => {
+
     let obj = questionState;
+    let rindex = undefined;
     console.log(`response id: ${response_id}`)
     console.log(`question id: ${question_id}`)
-    obj.questions[question_id].responses = obj.questions[question_id].responses.filter(r => r.response_id != response_id)
+    obj.questions[findQinObj(obj, question_id)].responses = obj.questions[findQinObj(obj, question_id)].responses.filter(r => r.response_id  !== response_id)
     setQuestionState(obj)
 
   }
 
-  function handleMultiChange(name, value, question_id) {
+  function handleMultiChange(name, value, question_id) 
+  {
     if (question_id == undefined) {
       let obj = questionState;
       obj.questions[name].content = value;
@@ -57,13 +60,29 @@ export default function MakeASurvey() {
     }
   }
 
+  function findRinQobj(obj,question_id, response_id){
+    for(let i=0; i < obj.quetions[findQinObj(obj, question_id)].responses.length; i ++){
+      if(obj.questions[findQinObj(obj, question_id)].responses[i].response_id === response_id)
+      return i;
+    }
+  }
+
+  function findQinObj(obj,question_id){
+    for (let i = 0; i < obj.questions.length; i ++){
+      if(obj.questions[i].id === question_id)
+        return i;
+    }
+
+  }
   const generateResponseObj = (question_id, response_id) => {
     let obj = questionState;
-    obj.questions[question_id].responses.push({
+  
+    obj.questions[findQinObj(obj, question_id)].responses.push({
       response_id: response_id,
       response_content: "",
       selected: false
     });
+
     setQuestionState(obj);
   }
   
