@@ -31,11 +31,9 @@ export default function MakeASurvey() {
   const useStyles = makeStyles(theme => ({
 
     root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
+    backgroundColor: 'gray',
     padding: '0 10px',
       '& > *': {
         margin: theme.spacing(2),
@@ -206,13 +204,13 @@ export default function MakeASurvey() {
   return (
     <Paper className={styles.root} style={{ maxWidth: 1000}}>
       <Card>
-        <Typography>
+        <Typography >
           Enter Survey Title Here..
       </Typography>
         <TextField placeholder={"survey title here..."} />
       </Card>
       <Card style={cardstyle}>
-        <InputLabel id="demo-simple-select-label">Question Type</InputLabel>
+        <InputLabel id="demo-simple-select-label">Select Question Type using selector</InputLabel>
         <Select
           style={{ minWidth: 120 }}
           labelId="demo-simple-select-label"
@@ -226,6 +224,9 @@ export default function MakeASurvey() {
         <Button onClick={generateQuestionBox}>Generate Question Box</Button>
       </Card>
       <Card>
+      <Typography>
+      Questions will be listed below:
+      </Typography>
         <ul>{emptyQuestions.map((q) => { return (q) })}</ul>
       </Card>
       <Card>
