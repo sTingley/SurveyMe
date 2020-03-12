@@ -37,7 +37,6 @@ const expose = async (application, db) => {
             res.status(400).send({ message: 'must send a request.body' })
         }
 
-        console.log(req)
 
         //TODO-Check if the stock already exists before adding to the DB
         const collection = db.collection('surveys');
