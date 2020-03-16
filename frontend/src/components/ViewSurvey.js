@@ -5,7 +5,62 @@ import MultiSelect from './questions/MultiSelect.js'
 import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
 export default function ViewSurvey(props){
-  
+  const [surveyobj, setSurveyobj] = useState({})
+  const [questions, setQuestions] = useState([])
+  return(
+    <div>
+      <Typography variant="h4"component="h2">
+        {`Survey Title: will soon go here  ID: will soon go here`}
+      </Typography>
+         <ul>{
+           returnQuestionArray(props)
+         }</ul>
+    </div>
+  )
+}
+
+function returnQuestionArray(arr){
+  console.log(arr)
+  return arr.survey.questions.map(q=>returnQuestion(q))
+}
+
+function returnQuestion(q){
+  switch (q.type) {
+    case 0:
+      return(
+        <ShortAnswer
+        question_id={q.id}
+        question_content={q.content}
+        question_responses={q.responses}
+        />
+      )
+      break;
+    case 1:
+      return(
+        <MultipleChoice
+        question_id={q.id}
+        question_content={q.content}
+        question_responses={q.responses}
+        question_selection={q.selected}
+        />
+      )
+      case 2:
+      return(
+        <MultiSelect
+        question_id={q.id}
+        question_content={q.content}
+        question_responses={q.responses}
+        question_selection={q.selected}
+        />
+      )
+    default:
+  }
+}
+
+
+
+
+
   // const qobj = {
   //   id: 1,
   //   type: 0,
@@ -38,60 +93,3 @@ export default function ViewSurvey(props){
   //   public: true,
   //   mode: 'view'
   // }
-
-
-  const [surveyobj, setSurveyobj] = useState({})
-  useEffect(()=>{
-    setSurveyobj(props.survey)
-  },[props.survey])
-  
-  return(
-    <div>
-      <Typography variant="h4"component="h2">
-        {`Survey Title: will soon go here  ID: will soon go here`}
-      </Typography>
-        <ul>{console.log(surveyobj)}</ul>
-    </div>
-  )
-}
-
-
-
-
-
-function returnQs(qs){
-  return qs.map((q) => returnQ(q))
-}
-
-function returnQ(q){
-  switch (q.type) {
-    case 0:
-      return(
-        <ShortAnswer
-        question_id={q.id}
-        question_content={q.content}
-        question_response={q.response}
-        />
-      )
-      break;
-    case 1:
-      return(
-        <MultipleChoice
-        question_id={q.id}
-        question_content={q.content}
-        question_response={q.response}
-        question_selection={q.selected}
-        />
-      )
-      case 2:
-      return(
-        <MultiSelect
-        question_id={q.id}
-        question_content={q.content}
-        question_response={q.response}
-        question_selection={q.selected}
-        />
-      )
-    default:
-  }
-}

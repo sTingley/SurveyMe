@@ -20,14 +20,19 @@ import * as UUID from "uuid";
 export default function MultiSelect(props) {
 
   const [responses, setResponses] = useState([]);
-  
+
+
+
+//use this to display
+//<FormControlLabel disabled value={r} control={<Checkbox checked />} label={r} />
 
   function returnRs(rs) {
     return rs.map((r) => {
-      if (props.question_selection.includes(r))
-        return <FormControlLabel disabled value={r} control={<Checkbox checked />} label={r} />
+      console.log(r)
+      if (r.selected === true)
+        return <li>selected</li>
       else
-        return <FormControlLabel disabled value={r} control={<Checkbox />} label={r} />
+        return <li>{r.response_content}</li>
     }
     )
   }
@@ -68,9 +73,7 @@ export default function MultiSelect(props) {
           <Typography variant="h5" component="h2">
             Question: {props.question_content}
           </Typography>
-          <Typography variant="h7" component="p">
-            Responses: {returnRs(props.question_response)}
-          </Typography>
+            <ul>{returnRs(props.question_responses)}</ul>
         </CardContent>
       </Card>
     )
@@ -85,10 +88,10 @@ export default function MultiSelect(props) {
             onChange={handleQChange}
             id={`${props.question_id}`}
             label="Enter Question Here..."
-            variant="filled" /> 
-            <input type="button" value="+" onClick={generateResponse} /> 
+            variant="filled" />
+            <input type="button" value="+" onClick={generateResponse} />
           <ul>{responses.map((r) => { return (r) })}</ul>
         </CardContent>
       </Card>
     )
-} 
+}

@@ -30,10 +30,11 @@ export default function MultipleChoice(props) {
 
   function returnRs(rs) {
     return rs.map((r) => {
-      if (props.question_selection.includes(r))
-        return <FormControlLabel disabled value={r} control={<Radio checked />} label={r} />
+      console.log(r)
+      if (r.selected === true)
+        return <li>selected</li>
       else
-        return <FormControlLabel disabled value={r} control={<Radio />} label={r} />
+        return <li>{r.response_content}</li>
     }
     )
   }
@@ -66,15 +67,15 @@ export default function MultipleChoice(props) {
           id={new_response_id}
           label="Enter Response Here..."
           variant="standard" />
-         
+
          <input type="button" value="-"  onClick={() => removeResponse(new_response_id)} />
         <br></br>
         </div>
       ))
   }
-  
 
-  
+
+
 
 
   if (props.mode != "edit")
@@ -84,11 +85,7 @@ export default function MultipleChoice(props) {
         <Typography variant="h5" component="h2">
           Question: {props.question_content}
         </Typography>
-        <RadioGroup onChange={handleChange} value={value}>
-          <Typography variant="h7" component="p">
-            Responses: {returnRs(props.question_response)}
-          </Typography>
-        </RadioGroup>
+        <ul>{returnRs(props.question_responses)}</ul>
       </CardContent>
     </Card>
   )
@@ -105,10 +102,9 @@ export default function MultipleChoice(props) {
           id={`${props.question_id}`}
           label="Enter Question Here..."
           variant="filled" />
-        <input type="button" value="+" onClick={generateResponse} /> 
+        <input type="button" value="+" onClick={generateResponse} />
         <ul>{responses.map((r) => { return (r) })}</ul>
       </CardContent>
     </Card>
     )
 }
-
