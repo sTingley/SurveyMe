@@ -30,9 +30,9 @@ export default function MultiSelect(props) {
     return rs.map((r) => {
       console.log(r)
       if (r.selected === true)
-        return <li>selected</li>
+        return <li><FormControlLabel disabled value={r.response_content} control={<Checkbox checked />} label={r.response_content} /></li>
       else
-        return <li>{r.response_content}</li>
+        return <li><FormControlLabel disabled value={r.response_content} control={<Checkbox />} label={r.response_content} /></li>
     }
     )
   }

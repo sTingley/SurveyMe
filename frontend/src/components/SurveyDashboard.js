@@ -12,10 +12,8 @@ export default function SurveyDashboard() {
       async function fetchData(){
         const res = await fetch("http://localhost:5000/api/v1/getSurveys");
         const data = await res.json();
-        const survey = data.docs
-        console.log(survey);
-        setSurveyArray(surveyArray.concat(survey));
-        console.log(surveyArray);
+        const surveys = data.docs
+        setSurveyArray(surveyArray.concat(surveys));
         setLoading(false);
       }
       fetchData();

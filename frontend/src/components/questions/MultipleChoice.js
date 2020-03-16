@@ -32,9 +32,9 @@ export default function MultipleChoice(props) {
     return rs.map((r) => {
       console.log(r)
       if (r.selected === true)
-        return <li>selected</li>
-      else
-        return <li>{r.response_content}</li>
+      return <li><FormControlLabel disabled value={r.response_content} control={<Radio checked />} label={r.response_content} /></li>
+    else
+      return <li><FormControlLabel disabled value={r.response_content} control={<Radio />} label={r.response_content} /></li>
     }
     )
   }
@@ -73,10 +73,6 @@ export default function MultipleChoice(props) {
         </div>
       ))
   }
-
-
-
-
 
   if (props.mode != "edit")
   return (
