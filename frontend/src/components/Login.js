@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
+
 import { TextField } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardAction from '@material-ui/core/Card';
@@ -11,6 +13,8 @@ export default function Login(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const history = useHistory();
 
 
     const handleChange = (e) => {
@@ -31,7 +35,8 @@ export default function Login(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('Success:', data);
+                console.log('login successful');
+                history.push('/ViewSurveys');
             })
             .catch((error) => {
                 console.error('Error:', error);
