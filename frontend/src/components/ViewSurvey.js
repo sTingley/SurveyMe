@@ -4,53 +4,53 @@ import ShortAnswer from './questions/ShortAnswer.js'
 import MultiSelect from './questions/MultiSelect.js'
 import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
-export default function ViewSurvey(props){
+export default function ViewSurvey(props) {
   const [surveyobj, setSurveyobj] = useState({})
   const [questions, setQuestions] = useState([])
-  return(
+  return (
     <div>
-      <Typography variant="h4"component="h2">
+      <Typography variant="h4" component="h2">
         {`Survey Title: will soon go here  ID: will soon go here`}
       </Typography>
-         <ul>{
-           returnQuestionArray(props)
-         }</ul>
+      <ul>{
+        returnQuestionArray(props)
+      }</ul>
     </div>
   )
 }
 
-function returnQuestionArray(arr){
+function returnQuestionArray(arr) {
   console.log(arr)
-  return arr.survey.questions.map(q=>returnQuestion(q))
+  return arr.survey.questions.map(q => returnQuestion(q))
 }
 
-function returnQuestion(q){
+function returnQuestion(q) {
   switch (q.type) {
     case 0:
-      return(
+      return (
         <ShortAnswer
-        question_id={q.id}
-        question_content={q.content}
-        question_responses={q.responses}
+          question_id={q.id}
+          question_content={q.content}
+          question_responses={q.responses}
         />
       )
       break;
     case 1:
-      return(
+      return (
         <MultipleChoice
-        question_id={q.id}
-        question_content={q.content}
-        question_responses={q.responses}
-        question_selection={q.selected}
+          question_id={q.id}
+          question_content={q.content}
+          question_responses={q.responses}
+          question_selection={q.selected}
         />
       )
-      case 2:
-      return(
+    case 2:
+      return (
         <MultiSelect
-        question_id={q.id}
-        question_content={q.content}
-        question_responses={q.responses}
-        question_selection={q.selected}
+          question_id={q.id}
+          question_content={q.content}
+          question_responses={q.responses}
+          question_selection={q.selected}
         />
       )
     default:

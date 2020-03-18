@@ -20,7 +20,7 @@ export default function SurveyDashboard() {
   },[])
       return(
         <Paper style={{width:'75%'}} elevation={3}>
-        {loading ? <p> loading.. </p> : <div>{surveyArray.map((s)=><ViewSurvey survey={s}/>)}</div>}
+        {loading ? <p> loading... </p> : <div>{surveyArray.map((s)=><ViewSurvey survey={s}/>)}</div>}
         </Paper>
       )
 }
