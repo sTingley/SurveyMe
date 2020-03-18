@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MultipleChoice from './questions/MultipleChoice.js'
 import ShortAnswer from './questions/ShortAnswer.js'
 import MultiSelect from './questions/MultiSelect.js'
 import Typography from '@material-ui/core/Typography'
 //props contains survey_id which will be used to query mongo client
 export default function ViewSurvey(props) {
-  const [surveyobj, setSurveyobj] = useState({})
-  const [questions, setQuestions] = useState([])
+
   return (
     <div>
       <Typography variant="h4" component="h2">
@@ -34,7 +33,6 @@ function returnQuestion(q) {
           question_responses={q.responses}
         />
       )
-      break;
     case 1:
       return (
         <MultipleChoice

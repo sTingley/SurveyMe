@@ -11,8 +11,6 @@ import TextField from '@material-ui/core/TextField';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,10 +29,10 @@ export default function MakeASurvey() {
   const useStyles = makeStyles(theme => ({
 
     root: {
-    border: 0,
-    borderRadius: 3,
-    backgroundColor: 'gray',
-    padding: '0 10px',
+      border: 0,
+      borderRadius: 3,
+      backgroundColor: 'gray',
+      padding: '0 10px',
       '& > *': {
         margin: theme.spacing(2),
       },
@@ -80,10 +78,8 @@ export default function MakeASurvey() {
 
   }
 
-
-
   function handleMultiChange(name, value, question_id) {
-    if (question_id == undefined) {
+    if (question_id === undefined) {
       let obj = questionState;
       obj.questions[findQinObj(obj, name)].content = value;
       setQuestionState(obj);
@@ -158,39 +154,39 @@ export default function MakeASurvey() {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
           <div>
-          <ShortAnswer
-            key={`${new_question_id}`}
-            removeResponse={removeResponse}
-            question_id={new_question_id}
-            onChange={handleMultiChange}
-            mode={"edit"}
-            generateResponseObj={generateResponseObj}
-          /><br></br>
+            <ShortAnswer
+              key={`${new_question_id}`}
+              removeResponse={removeResponse}
+              question_id={new_question_id}
+              onChange={handleMultiChange}
+              mode={"edit"}
+              generateResponseObj={generateResponseObj}
+            /><br></br>
           </div>))
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
           <div>
-          <MultipleChoice
-            key={`${new_question_id}`}
-            removeResponse={removeResponse}
-            question_id={new_question_id}
-            onChange={handleMultiChange}
-            mode={"edit"}
-            generateResponseObj={generateResponseObj}
-          /><br></br>
+            <MultipleChoice
+              key={`${new_question_id}`}
+              removeResponse={removeResponse}
+              question_id={new_question_id}
+              onChange={handleMultiChange}
+              mode={"edit"}
+              generateResponseObj={generateResponseObj}
+            /><br></br>
           </div>))
         break;
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
           <div>
-          <MultiSelect
-            key={`${emptyQuestions.length}`}
-            removeResponse={removeResponse}
-            question_id={new_question_id}
-            onChange={handleMultiChange}
-            mode={"edit"}
-            generateResponseObj={generateResponseObj}
+            <MultiSelect
+              key={`${emptyQuestions.length}`}
+              removeResponse={removeResponse}
+              question_id={new_question_id}
+              onChange={handleMultiChange}
+              mode={"edit"}
+              generateResponseObj={generateResponseObj}
             /><br></br>
           </div>))
     }
@@ -199,10 +195,8 @@ export default function MakeASurvey() {
 
 
 
-
-
   return (
-    <Paper className={styles.root} style={{ maxWidth: 1000}}>
+    <Paper className={styles.root} style={{ maxWidth: 1000 }}>
       <Card>
         <Typography >
           Enter Survey Title Here..
@@ -224,8 +218,8 @@ export default function MakeASurvey() {
         <Button onClick={generateQuestionBox}>Generate Question Box</Button>
       </Card>
       <Card>
-      <Typography>
-      Questions will be listed below:
+        <Typography>
+          Questions will be listed below:
       </Typography>
         <ul>{emptyQuestions.map((q) => { return (q) })}</ul>
       </Card>
@@ -234,6 +228,6 @@ export default function MakeASurvey() {
           <Button onClick={() => sendSurvey()}>Submit Survey</Button>
         </CardAction>
       </Card>
-  </Paper>
+    </Paper>
   )
 }

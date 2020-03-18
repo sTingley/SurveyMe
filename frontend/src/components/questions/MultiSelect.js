@@ -1,27 +1,16 @@
 import React, { useState } from 'react';
-
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-
-
-import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
 
 import * as UUID from "uuid";
 
 export default function MultiSelect(props) {
 
   const [responses, setResponses] = useState([]);
-
-
 
 //use this to display
 //<FormControlLabel disabled value={r} control={<Checkbox checked />} label={r} />
@@ -39,7 +28,7 @@ export default function MultiSelect(props) {
 
 
   const removeResponse = (response_id) => {
-    setResponses(responses.filter(r => r.id != response_id))
+    setResponses(responses.filter(r => r.id !== response_id))
     props.removeResponse(response_id, props.question_id)
   }
   const handleQChange = (e) => {
@@ -66,7 +55,7 @@ export default function MultiSelect(props) {
     ))
   }
 
-  if (props.mode != "edit")
+  if (props.mode !== "edit")
     return (
       <Card>
         <CardContent>
