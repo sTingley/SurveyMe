@@ -1,30 +1,30 @@
 const express = require("express");
 const log4js = require('log4js');
-const routes = require('./routes');
-const assert = require('assert');
 //MongoClient.connect("mongodb+srv://m001-student:m001-mongodb-basics@cluster0-rmf3a.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true },
 
 const connectMongo = async (application) => {
 
 	const { MongoClient } = require('mongodb');
 	const assert = require('assert');
+	let db;
 
 	MongoClient.connect(`mongodb+srv://${application.config.dbUser}:${application.config.dbPass}@cluster0-rmf3a.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true },
 		(err, client) => {
 
 			assert.equal(err, null)
-			const db = client.db(`${application.config.dbName}`);
+			db = client.db(`${application.config.dbName}`);
 
 			application.logger.debug(`connected to db on port ${application.config.dbPort}`);
-
-			routes.expose(application, db) //routes will contain our endpoints
-				.then(() => {
-					application.logger.info('endpoints exposed');
-				})
-				.catch((err) => {
-					application.logger.error(err);
-				})
 		})
+		const routes = require('./routes');
+		routes.expose(application, db) //routes will contain our endpoints
+		.then(() => {
+			application.logger.info('endpoints exposed');
+		})
+		.catch((err) => {
+		application.logger.error(err);
+		})
+
 }
 
 
@@ -42,17 +42,21 @@ const loadDb = async (application) => {
 
 
 const authenticate = async (application) => {
-	//TO-DO: Have this resolve the auth.js auth method
-    return new Promise((resolve, reject) => {
-        resolve(application.logger.warn('Session auth is TBD. Likely going to use JWTs.'))
-    })
+
+	const { signIn, welcome, refresh } = require('../auth/auth');
+	application.endpoints.post('/signin', signIn);
+	application.endpoints.get('/welcome', welcome);
+	application.endpoints.post('/refresh', refresh);
 }
 
 
 const start = async (application) => {
 
-	application.logger.info('load any middleware and connecting to db ...\n');
+	application.logger.info('Configure Express ...\n');
 	application.endpoints.use(express.json());
+	const cookieParser = require('cookie-parser');
+	application.endpoints.use(cookieParser());
+	application.logger.info('Use cookie parser ... \n')
 	application.endpoints.use((req, res, next) => {
 		res.set('Access-Control-Allow-Origin', '*');
 		res.set('Access-Control-Allow-Headers', 'content-type');
@@ -60,12 +64,13 @@ const start = async (application) => {
 		next();
 	})
 
-	const loadStuff = authenticate(application);
+
+	const authenticated = authenticate(application);
 	const promiseDB = loadDb(application);
 
 	try {
 
-		await Promise.all([loadStuff, promiseDB])
+		await Promise.all([authenticated, promiseDB])
 			.then(() => {
 				application.logger.info('db connection tested...');
 			})
