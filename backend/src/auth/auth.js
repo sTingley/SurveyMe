@@ -10,7 +10,7 @@ const users = {
 
 const signIn = (application, req, res) => {
 
-  console.log("got sign in req: " + req);
+  console.log(req.body);
   // Get credentials from JSON body
   const { username, password } = req.body
   if (!username || !password || users[username] !== password) {

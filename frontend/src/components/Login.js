@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import  { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardAction from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,22 +8,41 @@ import Paper from '@material-ui/core/Paper'
 
 export default function Login(props) {
 
-    
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
 
     const handleChange = (e) => {
-        if(e.target.id==='password')
+        if (e.target.id === 'password')
             setPassword(e.target.value);
-        if(e.target.id==='username')
+        if (e.target.id === 'username')
             setUsername(e.target.value);
     }
 
+    const attemptLogin = () => {
+
+        fetch('http://localhost:5000/signin', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({username, password}),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
     return (
-        <Paper style={{width: '85%'}}>
+        <Paper style={{ width: '85%' }}>
             <Card>
-                <CardContent style={{width: '75%'}}>
+                <CardContent style={{ width: '75%' }}>
                     <TextField
                         value={username}
                         key={'username'}
@@ -42,9 +61,7 @@ export default function Login(props) {
                         type='password'
                     />
                     <CardAction>
-                        <Button 
-                        onClick={()=>console.log(`username: ${username} password ${password}`)}
-                        >Submit</Button>
+                        <Button onClick={attemptLogin}>Submit</Button>
                     </CardAction>
                 </CardContent>
             </Card>

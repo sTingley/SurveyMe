@@ -1,0 +1,3 @@
+https://medium.com/@SilentHackz/simple-way-to-secure-react-apps-using-jwt-and-react-router-2b4a05d780a3
+
+https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
