@@ -1,6 +1,5 @@
 {
     "host": "hostname here",
-    "dbName": "dbNAME",
     "apiPort":5000,
     "dbPort": 27017,
     "dbName": "test",
