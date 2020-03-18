@@ -11,14 +11,14 @@ import MakeASurvey from './components/MakeASurvey';
 import Login from './components/Login';
 
 
-
+import {getSession, logOut} from './helpers/AuthHelp'
 
 export default function App() {
 
   return (
     <Router>
       <div>
-        
+
         <nav>
           <ul>
             <li>
@@ -34,7 +34,11 @@ export default function App() {
         </nav>
 
         <Route path="/" render={() => (
+          getSession() ? (
+          <SurveyDashboard/>
+            ):(
           <Redirect to="/login" />
+          )
         )} />
 
         <Route path="/login" render={() => <Login />} />
