@@ -6,19 +6,15 @@ Current routes exposed/supported:
 const expose = async (application, db) => {
 
     const assert = require('assert');
-
-    application.logger.debug('inside routes.expose');
+    application.logger.warn('ST: there is a bug');
 
     /**********************************************************************
     ***********************************************************************/
+
     application.endpoints.get('/api/v1/getSurveys', (req, res) => {
 
-        // if (!req.body) {
-        //     res.status(404).send({ message: 'must send a request.body' })
-        // }
         application.logger.debug('inside getSurveys');
-
-        const collection = db.collection('surveys')
+        const collection = db.collection('surveys');
         collection.find({}).toArray(function (err, docs) {
             assert.equal(err, null);
             if (docs.length > 0) { //TODO: make this better and check req
@@ -36,11 +32,8 @@ const expose = async (application, db) => {
         if (!req.body) {
             res.status(400).send({ message: 'must send a request.body' })
         }
-
-
-        //TODO-Check if the stock already exists before adding to the DB
         const collection = db.collection('surveys');
-        //insert a key 'stock' with a value 
+        //TODO-Check if the survey already exists by ID before adding to the DB
         collection.insertOne(req.body, (err, result) => {
             assert.equal(err, null);
             res.status(200).send({ message: 'survey added' });
@@ -55,6 +48,7 @@ const expose = async (application, db) => {
         if (!req.body.survey) { //TODO: Pure functions to check for req values to remove duplicate code
             res.status(404).send({ message: 'must input a request.body.ID' })
         }
+        const collection = db.collection('surveys');
 
     });
 
@@ -65,7 +59,6 @@ const expose = async (application, db) => {
         if (!req.body.survey) {
             res.status(404).send({ message: 'must input a request.body.survey' })
         }
-
         const collection = db.collection('surveys');
         collection.findOne({ ID: req.body.surveyID }, (err, survey) => {
 
@@ -81,7 +74,6 @@ const expose = async (application, db) => {
             }
         })
     })
-
 
 }
 
