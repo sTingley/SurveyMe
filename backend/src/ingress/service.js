@@ -48,7 +48,6 @@ const authenticate = async (application) => {
 	application.endpoints.post('/signin', signIn);
 	application.endpoints.get('/welcome', welcome);
 	application.endpoints.post('/refresh', refresh);
-
 	
 }
 

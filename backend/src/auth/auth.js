@@ -8,7 +8,7 @@ const users = {
   user2: 'password2'
 }
 
-const signIn = (application, req, res) => {
+const signIn = (req, res) => {
 
   console.log(req.body);
   // Get credentials from JSON body
