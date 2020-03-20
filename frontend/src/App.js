@@ -36,7 +36,8 @@ export default function App() {
               </li>
           </ul>
         </nav>
-
+        
+        {/* this works dont ask me why */}
         <Route path="/" render={() => (
           getSession() ? (
             <App></App>
@@ -56,6 +57,8 @@ export default function App() {
         <Route path='/MakeASurvey'>
           <MakeASurvey />
         </Route>
+
+
       </div>
     </Router>
   );

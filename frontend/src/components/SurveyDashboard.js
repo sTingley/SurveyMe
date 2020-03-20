@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ViewSurvey from './ViewSurvey';
 import Paper from '@material-ui/core/Paper';
-import Cookies from 'js-cookie';
+
 
 export default function SurveyDashboard() {
 
   const [surveyArray, setSurveyArray] = useState([])
   const [loading, setLoading] = useState(true)
-
+  const jwt = require('jsonwebtoken')
 
   useEffect(() => {
-
     
+    console.log(localStorage.getItem('username'))
 
     async function fetchData() {
       const res = await fetch("http://localhost:5000/api/v1/getSurveys");

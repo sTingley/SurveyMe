@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'
 
+
 export default function Login(props) {
 
 
@@ -24,18 +25,6 @@ export default function Login(props) {
             setUsername(e.target.value);
     }
 
-    async function checkCookie() {
-        fetch('http://localhost:5000/welcome', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include'
-        })
-          .then((res) => {
-            console.log(res)
-          })
-      }
 
 
     const attemptLogin = () => {
@@ -53,6 +42,8 @@ export default function Login(props) {
                 }
                 else if(data.status === 200){
                     console.log('authorized')
+                    //using local storage to store userdata (not private)
+                    localStorage.setItem('username', username)
                     history.push('/Dashboard')
                 }
             })
@@ -85,7 +76,6 @@ export default function Login(props) {
                     />
                     <CardAction>
                         <Button onClick={attemptLogin}>Submit</Button>
-                        <Button onClick={checkCookie}>Check</Button>
                     </CardAction>
 
                 </CardContent>
