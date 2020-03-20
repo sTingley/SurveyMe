@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { TextField } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
@@ -24,19 +24,37 @@ export default function Login(props) {
             setUsername(e.target.value);
     }
 
-    const attemptLogin = () => {
+    async function checkCookie() {
+        fetch('http://localhost:5000/welcome', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        })
+          .then((res) => {
+            console.log(res)
+          })
+      }
 
+
+    const attemptLogin = () => {
         fetch('http://localhost:5000/signin', {
-            method: 'POST', 
+          method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username, password}),
-        })
-            .then((response) => response.json())
+            credentials: 'include',
+            body: JSON.stringify({ username, password }),
+        })  
             .then((data) => {
-                console.log('login successful');
-                history.push('/ViewSurveys');
+                if(data.status === 401){
+                    console.log('error did not authorize')
+                }
+                else if(data.status === 200){
+                    console.log('authorized')
+                    history.push('/Dashboard')
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -67,7 +85,9 @@ export default function Login(props) {
                     />
                     <CardAction>
                         <Button onClick={attemptLogin}>Submit</Button>
+                        <Button onClick={checkCookie}>Check</Button>
                     </CardAction>
+
                 </CardContent>
             </Card>
         </Paper>)

@@ -15,6 +15,7 @@ import {getSession, logOut} from './helpers/AuthHelp'
 
 export default function App() {
 
+
   return (
     <Router>
       <div>
@@ -22,31 +23,35 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/ViewSurveys">ViewSurveys</Link>
+              <Link to='/Dashboard'>Dashboard</Link>
             </li>
             <li>
               <Link to="/MakeASurvey">Make A Survey</Link>
             </li>
             <li>
-              <Link to="/login">Home</Link>
+              <Link to="/login">login</Link>
             </li>
+              <li>
+                <input type="button" onClick={()=>logOut()}/>
+              </li>
           </ul>
         </nav>
 
         <Route path="/" render={() => (
           getSession() ? (
-          <SurveyDashboard/>
+            <App></App>
             ):(
           <Redirect to="/login" />
           )
         )} />
 
-        <Route path="/login" render={() => <Login />} />
-
-        <Route path="/ViewSurveys">
-          <SurveyDashboard />
+        <Route path="/login">
+          <Login />
         </Route>
 
+        <Route path="/Dashboard">
+          <SurveyDashboard />
+        </Route>
 
         <Route path='/MakeASurvey'>
           <MakeASurvey />

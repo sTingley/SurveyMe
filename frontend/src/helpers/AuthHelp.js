@@ -4,6 +4,7 @@ export const getSession = () => {
     let session
     try {
         if (jwt) {
+            console.log(jwt)
             const base64Url = jwt.split('.')[1]
             const base64 = base64Url.replace('-', '+').replace('_', '/')
             // what is window.atob ?
@@ -19,3 +20,4 @@ export const getSession = () => {
 export const logOut = () => {
     Cookies.remove('__session')
 }
+

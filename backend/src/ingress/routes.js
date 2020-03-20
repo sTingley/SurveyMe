@@ -12,7 +12,6 @@ const expose = async (application, db) => {
     ***********************************************************************/
 
     application.endpoints.get('/api/v1/getSurveys', (req, res) => {
-
         application.logger.debug('inside getSurveys');
         const collection = db.collection('surveys');
         collection.find({}).toArray(function (err, docs) {
