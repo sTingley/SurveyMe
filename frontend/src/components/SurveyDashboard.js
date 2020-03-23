@@ -3,7 +3,7 @@ import ViewSurvey from './ViewSurvey';
 import Paper from '@material-ui/core/Paper';
 
 
-export default function SurveyDashboard() {
+export default function SurveyDashboard(props) {
 
   const [surveyArray, setSurveyArray] = useState([])
   const [loading, setLoading] = useState(true)
@@ -27,6 +27,7 @@ export default function SurveyDashboard() {
   }, [])
   return (
     <Paper style={{ width: '75%' }} elevation={3}>
+      <button onClick={props.handleLogout}>Log Out</button>
       {loading ? <p> loading... </p> : <div>{surveyArray.map((s) => <ViewSurvey survey={s} />)}</div>}
     </Paper>
   )

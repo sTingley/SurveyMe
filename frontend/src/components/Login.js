@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import { TextField, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
@@ -14,9 +14,6 @@ export default function Login(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const history = useHistory();
-
 
     const handleChange = (e) => {
         if (e.target.id === 'password')
@@ -42,9 +39,7 @@ export default function Login(props) {
                 }
                 else if(data.status === 200){
                     console.log('authorized')
-                    //using local storage to store userdata (not private)
-                    localStorage.setItem('username', username)
-                    history.push('/Dashboard')
+                    props.handleLogin()
                 }
             })
             .catch((error) => {
@@ -57,7 +52,7 @@ export default function Login(props) {
         <Paper style={{ width: '85%' }}>
             <Card>
                 <Typography variant='h4'>
-                    Login
+                    Login: {props.user}
                 </Typography>
                 <CardContent style={{ width: '75%' }}>
                     <TextField
@@ -79,7 +74,7 @@ export default function Login(props) {
                     />
                     <CardAction>
                         <Button onClick={attemptLogin}>Submit</Button>
-                        <Button onClick={()=>history.replace('/RegisterUser')}>Register New User</Button>
+                        <p><Link to='/dashboard'>View Dashboard</Link></p>
                     </CardAction>
 
                 </CardContent>
