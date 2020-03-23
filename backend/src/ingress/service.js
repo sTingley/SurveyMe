@@ -15,16 +15,16 @@ const connectMongo = async (application) => {
 			db = client.db(`${application.config.dbName}`);
 
 			application.logger.debug(`connected to db on port ${application.config.dbPort}`);
-		})
-		const routes = require('./routes');
-		routes.expose(application, db) //routes will contain our endpoints
-		.then(() => {
-			application.logger.info('endpoints exposed');
-		})
-		.catch((err) => {
-		application.logger.error(err);
-		})
 
+			const routes = require('./routes');
+			routes.expose(application, db) //routes will contain our endpoints
+				.then(() => {
+					application.logger.info('endpoints exposed');
+				})
+				.catch((err) => {
+					application.logger.error(err);
+				})
+		})
 }
 
 
@@ -32,11 +32,10 @@ const loadDb = async (application) => {
 
 	connectMongo(application) //Today we are using Mongo but this function doesn't care
 		.then(() => {
-			application.logger.debug('tested db connection ... \n')
+			application.logger.debug('tested db connection and exposed endpoints ... \n')
 		})
 		.catch((err) => {
 			application.logger.error(err);
-			res.status(501).send({ message: "you got an error", error: err })
 		})
 }
 
@@ -44,11 +43,11 @@ const loadDb = async (application) => {
 const authenticate = async (application) => {
 
 	const { signIn, welcome, refresh } = require('../auth/auth');
-	
+
 	application.endpoints.post('/signin', signIn);
 	application.endpoints.get('/welcome', welcome);
 	application.endpoints.post('/refresh', refresh);
-	
+
 }
 
 
@@ -65,7 +64,6 @@ const start = async (application) => {
 		res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE');
 		next();
 	})
-
 
 	const authenticated = authenticate(application);
 	const promiseDB = loadDb(application);

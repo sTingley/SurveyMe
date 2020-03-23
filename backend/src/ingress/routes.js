@@ -6,7 +6,6 @@ Current routes exposed/supported:
 const expose = async (application, db) => {
 
     const assert = require('assert');
-    application.logger.warn('ST: there is a bug');
 
     /**********************************************************************
     ***********************************************************************/
