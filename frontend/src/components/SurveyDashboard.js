@@ -7,7 +7,6 @@ export default function SurveyDashboard() {
 
   const [surveyArray, setSurveyArray] = useState([])
   const [loading, setLoading] = useState(true)
-  const jwt = require('jsonwebtoken')
 
   useEffect(() => {
     

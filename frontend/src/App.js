@@ -1,7 +1,6 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
   Link,
   Redirect
@@ -12,6 +11,7 @@ import Login from './components/Login';
 
 
 import {getSession, logOut} from './helpers/AuthHelp'
+import RegisterUser from "./components/RegisterUser";
 
 export default function App() {
 
@@ -37,6 +37,9 @@ export default function App() {
           </ul>
         </nav>
         
+
+
+
         {/* this works dont ask me why */}
         <Route path="/" render={() => (
           getSession() ? (
@@ -57,7 +60,9 @@ export default function App() {
         <Route path='/MakeASurvey'>
           <MakeASurvey />
         </Route>
-
+        <Route path='/RegisterUser'>
+          <RegisterUser/>
+        </Route>
 
       </div>
     </Router>

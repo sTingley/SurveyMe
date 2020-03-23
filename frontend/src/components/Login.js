@@ -76,6 +76,7 @@ export default function Login(props) {
                     />
                     <CardAction>
                         <Button onClick={attemptLogin}>Submit</Button>
+                        <Button onClick={()=>history.replace('/RegisterUser')}>Register New User</Button>
                     </CardAction>
 
                 </CardContent>
