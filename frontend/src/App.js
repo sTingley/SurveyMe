@@ -94,29 +94,6 @@ export default function App() {
 
 
 
-      {/* 
-      <div>
-        <nav>
-          <ul>
-            <li>
-              
-            </li>
-            <li>
-              <Link to="/MakeASurvey">Make A Survey</Link>
-            </li>
-            <li>
-              <Link to="/login">login</Link>
-            </li>
-            <li>
-              <Link to='/RegisterUser'>New User</Link>
-            </li>
-            <li>
-              <input type="button" onClick={() => logOut()} />
-            </li>
-          </ul>
-        </nav>
- */}
-
       {/* this works dont ask me why */}
       <Route path="/" render={() => (
         getSession() ? (

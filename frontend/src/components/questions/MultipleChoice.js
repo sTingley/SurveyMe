@@ -17,11 +17,10 @@ export default function MultipleChoice(props) {
   const [responses, setResponses] = useState([]);
   function returnRs(rs) {
     return rs.map((r) => {
-      console.log(r)
       if (r.selected === true)
-        return <li><FormControlLabel disabled value={r.response_content} control={<Radio checked />} label={r.response_content} /></li>
+        return <li><FormControlLabel disabled key={r.response_id} value={r.response_content} control={<Radio checked />} label={r.response_content} /></li>
       else
-        return <li><FormControlLabel disabled value={r.response_content} control={<Radio />} label={r.response_content} /></li>
+        return <li><FormControlLabel disabled key={r.response_id}  value={r.response_content} control={<Radio />} label={r.response_content} /></li>
     }
     )
   }

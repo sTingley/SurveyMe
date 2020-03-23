@@ -38,12 +38,11 @@ export default function RegisterUser(props) {
 
 
     const attemptRegister = (username, password) => {
-        fetch('http://localhost:5000/createUser', {
+        fetch('http://localhost:5000/api/v1/addUser', {
           method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
             body: JSON.stringify({ username, password }),
         })  
             .then((data) => {

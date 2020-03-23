@@ -13,9 +13,7 @@ const connectMongo = async (application) => {
 
 			assert.equal(err, null)
 			db = client.db(`${application.config.dbName}`);
-
 			application.logger.debug(`connected to db on port ${application.config.dbPort}`);
-
 			const routes = require('./routes');
 			routes.expose(application, db) //routes will contain our endpoints
 				.then(() => {

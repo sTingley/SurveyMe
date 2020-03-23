@@ -25,7 +25,7 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
-    application.endpoints.post('/api/v1/addUser',(req,res) =>{
+    application.endpoints.post('/api/v1/addUser', (req, res) => {
         //TODO:
         //error handling
         //encryption
@@ -40,15 +40,32 @@ const expose = async (application, db) => {
         //encrypt here
         const hashedpass = req.body.password;
 
-        collection.insertOne({username, hashedpass}, (err, result) => {
+        collection.insertOne({ username, hashedpass }, (err, result) => {
             assert.equal(err, null);
-            res.status(200).send({ message: 'user added',username: `${username}` });
+            res.status(200).send({ message: 'user added', username: `${username}` });
         })
     })
 
     /**********************************************************************
     ***********************************************************************/
-    
+
+    //only for dev server will configure later
+    application.endpoints.get('/api/v1/getUsers', (req, res) => {
+        application.logger.debug('inside get users');
+        const collection = db.collection('users');
+        collection.find({}).toArray(function (err, docs) {
+            assert.equal(err, null);
+            if (docs.length > 0) { //TODO: make this better and check req
+                res.status(200).send({ docs })
+            } else {
+                res.status(200).send({ message: 'users.' })
+            }
+        })
+    })
+
+    /**********************************************************************
+    ***********************************************************************/
+
     application.endpoints.post('/api/v1/addSurvey', (req, res) => {
 
         if (!req.body) {
