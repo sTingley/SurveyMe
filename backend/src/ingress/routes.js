@@ -26,9 +26,30 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
+    application.endpoints.post('/api/v1/addUser',(req,res) =>{
+        //TODO:
+        //error handling
+        //encryption
+        if (!req.body) {
+            res.status(400).send({ message: 'must send a request.body' })
+        }
+
+        //making new collection for user data
+        const collection = db.collection('users');
+        const username = req.body.username;
+
+        //encrypt here
+        const hashedpass = req.body.password;
+
+        collection.insertOne({username, hashedpass}, (err, result) => {
+            assert.equal(err, null);
+            res.status(200).send({ message: 'user added',username: `${username}` });
+        })
+    })
+
+    /**********************************************************************
+    ***********************************************************************/
     
-
-
     application.endpoints.post('/api/v1/addSurvey', (req, res) => {
 
         if (!req.body) {

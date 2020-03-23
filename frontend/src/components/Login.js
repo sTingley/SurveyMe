@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardAction from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -56,6 +56,9 @@ export default function Login(props) {
     return (
         <Paper style={{ width: '85%' }}>
             <Card>
+                <Typography variant='h4'>
+                    Login
+                </Typography>
                 <CardContent style={{ width: '75%' }}>
                     <TextField
                         value={username}

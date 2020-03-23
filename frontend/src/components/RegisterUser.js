@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardAction from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -63,9 +63,16 @@ export default function RegisterUser(props) {
 
     }
 
+    const textFieldStyles={
+        width: '30%'
+    }
+
     return (
         <Paper style={{ width: '85%' }}>
             <Card>
+                <Typography variant='h4'>
+                    Register New User Screen
+                </Typography>
                 <CardContent style={{ width: '75%' }}>
                     <TextField
                         value={username}
@@ -73,7 +80,8 @@ export default function RegisterUser(props) {
                         onChange={handleChange}
                         id={'username'}
                         label='enter desired username here'
-                        variant='filled'
+                        variant='outlined'
+                        style={textFieldStyles}
                     /><br></br>
                     <TextField
                         value={password1}
@@ -81,8 +89,10 @@ export default function RegisterUser(props) {
                         onChange={handleChange}
                         id={'password1'}
                         label='enter desired password here'
-                        variant='filled'
+                        variant='outlined'
                         type='password'
+                        style={textFieldStyles}
+
                     /><br></br>
                     <TextField
                         value={password2}
@@ -90,8 +100,10 @@ export default function RegisterUser(props) {
                         onChange={handleChange}
                         id={'password2'}
                         label='confirm desired password here'
-                        variant='filled'
+                        variant='outlined'
                         type='password'
+                        style={textFieldStyles}
+
                     />
                     <CardAction>
                         <Button onClick={registerNewUser}>Submit</Button>
