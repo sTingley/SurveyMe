@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -19,24 +19,33 @@ import Button from '@material-ui/core/Button'
 
 export default function App() {
 
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState({loggedIn: false, username: ""})
 
 
-  const handleLogin =() => {
-    setUser(true)
+  const handleLogin = (username) => {
+    setUser({loggedIn: true, username: username})
   }
 
   const handleLogout = () => {
-    setUser(false);
+    setUser({loggedIn: false, username: null});
   }
 
   return (
     <div>
-    <Router>
-      <Route exact path='/' handleLogin={handleLogin} render={props=><Login {...props} user={user.toString()} handleLogin={handleLogin} />}/>
-      <ProtectedRoute exact path='/dashboard' user={user} handleLogout={handleLogout} component={SurveyDashboard} />
-      <Route exact path='/unauthorized' component={Unauthorized} />
-    </Router>
+
+
+      <Router>
+        <Link to='/dashboard'>View Dashboard</Link>
+        <Link to='/makeasurvey'>Make a Survey</Link>
+        <Link to='/registeruser'>Register New User</Link>
+        <button onClick={handleLogout}>Log Out</button>
+        <Route exact path='/' handleLogin={handleLogin} render={props => <Login {...props} user={user} handleLogin={handleLogin} />} />
+        <ProtectedRoute exact path='/dashboard' user={user} component={SurveyDashboard} />
+        <ProtectedRoute exact path='/makeasurvey' user={user} component={MakeASurvey} />
+        <Route exact path='/unauthorized' component={Unauthorized} />
+      </Router>
     </div>
   );
 }
+
+

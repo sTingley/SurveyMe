@@ -39,7 +39,7 @@ export default function Login(props) {
                 }
                 else if(data.status === 200){
                     console.log('authorized')
-                    props.handleLogin()
+                    props.handleLogin(username)
                 }
             })
             .catch((error) => {
@@ -52,7 +52,7 @@ export default function Login(props) {
         <Paper style={{ width: '85%' }}>
             <Card>
                 <Typography variant='h4'>
-                    Login: {props.user}
+                    Login:
                 </Typography>
                 <CardContent style={{ width: '75%' }}>
                     <TextField
@@ -74,7 +74,6 @@ export default function Login(props) {
                     />
                     <CardAction>
                         <Button onClick={attemptLogin}>Submit</Button>
-                        <p><Link to='/dashboard'>View Dashboard</Link></p>
                     </CardAction>
 
                 </CardContent>
