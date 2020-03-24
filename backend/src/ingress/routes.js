@@ -68,6 +68,25 @@ const expose = async (application, db) => {
             }
         })
     })
+    /**********************************************************************
+    ***********************************************************************/
+   application.endpoints.post('/api/v1/getSurveys', (req, res) => {
+    application.logger.debug('inside getSurveys');
+    if (!req.body) {
+        res.status(400).send({ message: 'must send a request.body' })
+    }
+
+    const collection = db.collection('surveys');
+    collection.findOne({id: req.body.surveyID}, function (err, docs) {
+        assert.equal(err, null);
+        if (docs.length != 0) { //TODO: make this better and check req
+            res.status(200).send({ docs })
+        } else {
+            res.status(200).send({ message: 'no surveys found.' })
+        }
+    })
+})
+
 
     /**********************************************************************
     ***********************************************************************/
@@ -146,7 +165,6 @@ const expose = async (application, db) => {
         collection.findOne({ id: req.body.surveyID }, (err, survey) => {
 
             console.log("response from findOne:  " + JSON.stringify(survey));
-
             assert.equal(err, null);
             if (survey != null) {
                 collection.deleteOne({ id: req.body.surveyID }, (err, item) => {
