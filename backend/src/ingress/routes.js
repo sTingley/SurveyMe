@@ -7,9 +7,55 @@ const expose = async (application, db) => {
 
     const assert = require('assert');
 
+    const { /*signIn,*/ welcome, refresh } = require('../auth/auth');
+    const jwt = require('jsonwebtoken')
+    const jwtKey = 'my_secret_key'
+    const jwtExpirySeconds = 300
+
+    //application.endpoints.post('/signin', signIn);
+    application.endpoints.get('/welcome', welcome);
+    application.endpoints.post('/refresh', refresh);
+
     /**********************************************************************
     ***********************************************************************/
+    application.endpoints.post('/signin', (req, res) => {
 
+        // Get credentials from JSON body
+        const { username, password } = req.body
+        if (!username || !password) {
+            // return 401 error is username or password doesn't exist in request
+            return res.status(401).end();
+        }
+
+        const collection = db.collection('users');
+        collection.findOne({ username: req.body.username }, (err, docs) => {
+
+            assert.equal(err, null);
+            if (docs != null && docs.hashedpass == password) { //make sure pwd matches
+
+                // Create a new token with the username in the payload
+                // and which expires 300 seconds after issue
+                const token = jwt.sign({ username }, jwtKey, {
+                    algorithm: 'HS256',
+                    expiresIn: jwtExpirySeconds
+                })
+                console.log('token:', token)
+
+                // set the cookie as the token string, with a similar max age as the token
+                // here, the max age is in milliseconds, so we multiply by 1000
+                res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 })
+                res.end()
+            } else {
+                res.status(200).send({ message: 'try again broh.' })
+            }
+        })
+
+
+
+    })
+
+    /**********************************************************************
+    ***********************************************************************/
     application.endpoints.get('/api/v1/getSurveys', (req, res) => {
         application.logger.debug('inside getSurveys');
         const collection = db.collection('surveys');
@@ -48,7 +94,6 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
-
     //only for dev server will configure later
     application.endpoints.get('/api/v1/getUsers', (req, res) => {
         application.logger.debug('inside get users');
@@ -65,7 +110,6 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
-
     application.endpoints.post('/api/v1/addSurvey', (req, res) => {
 
         if (!req.body) {
@@ -117,4 +161,5 @@ const expose = async (application, db) => {
 }
 
 module.exports = { expose }
+
 

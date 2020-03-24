@@ -40,11 +40,11 @@ const loadDb = async (application) => {
 
 const authenticate = async (application) => {
 
-	const { signIn, welcome, refresh } = require('../auth/auth');
-
-	application.endpoints.post('/signin', signIn);
-	application.endpoints.get('/welcome', welcome);
-	application.endpoints.post('/refresh', refresh);
+	let promise = new Promise((resolve, reject) => {
+		setTimeout(() => resolve("messing with async syntax"), 1000)
+	  });
+	
+	  let result = await promise; // wait until the promise resolves (*)
 
 }
 
