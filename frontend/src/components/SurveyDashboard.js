@@ -11,12 +11,18 @@ export default function SurveyDashboard(props) {
 
   useEffect(() => {
     
-    console.log(localStorage.getItem('username'))
-
     async function fetchData() {
-      const res = await fetch("http://localhost:5000/api/v1/getSurveys");
+      const res = await fetch("http://localhost:5000/api/v1/getSurveys",
+      {
+        method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ owners: props.username }),
+      })
       const data = await res.json();
-      const surveys = data.docs
+      const surveys = data.filtered;
+      console.log(data.filtered)
       setSurveyArray(surveyArray.concat(surveys));
       setLoading(false);
     }

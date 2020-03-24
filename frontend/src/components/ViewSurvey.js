@@ -11,13 +11,14 @@ export default function ViewSurvey(props) {
       <Typography variant="h4" component="h2">
         {`Survey Title: will soon go here  ID: will soon go here`}
       </Typography>
-      <ul>{returnQuestionArray(props)}</ul>
+      <ul>{returnQuestionArray(props.survey.questions[0].questions)}</ul>
     </div>
   )
 }
 
 function returnQuestionArray(arr) {
-  return arr.survey.questions.map(q => returnQuestion(q))
+  console.log(arr)
+  return arr.map(q => returnQuestion(q))
 }
 
 function returnQuestion(q) {
