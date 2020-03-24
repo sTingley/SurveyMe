@@ -25,7 +25,7 @@ export default function SurveyDashboard(props) {
   return (
     <Paper style={{ width: '75%' }} elevation={3}>
       <Typography variant="h4">
-        Hello {props?.user?.username}
+        Hello {props.username}
       </Typography>
       {loading ? <p> loading... </p> : <div>{surveyArray.map((s) => <ViewSurvey survey={s} />)}</div>}
     </Paper>

@@ -19,29 +19,29 @@ import Button from '@material-ui/core/Button'
 
 export default function App() {
 
-  const [user, setUser] = useState({loggedIn: false, username: ""})
+  const [user, setUser] = useState(false)
+  const [username, setUsername] = useState('')
 
-
-  const handleLogin = (username) => {
-    setUser({loggedIn: true, username: username})
+  const handleLogin = (uname) => {
+    setUser(true);
+    setUsername(uname)
   }
 
   const handleLogout = () => {
-    setUser({loggedIn: false, username: null});
+    setUser(false);
+    setUsername("")
   }
 
   return (
     <div>
-
-
       <Router>
         <Link to='/dashboard'>View Dashboard</Link>
         <Link to='/makeasurvey'>Make a Survey</Link>
         <Link to='/registeruser'>Register New User</Link>
-        <button onClick={handleLogout}>Log Out</button>
+        <Button onClick={handleLogout}>Log Out</Button>
         <Route exact path='/' handleLogin={handleLogin} render={props => <Login {...props} user={user} handleLogin={handleLogin} />} />
-        <ProtectedRoute exact path='/dashboard' user={user} component={SurveyDashboard} />
-        <ProtectedRoute exact path='/makeasurvey' user={user} component={MakeASurvey} />
+        <ProtectedRoute exact path='/dashboard' user={user} username={username} component={SurveyDashboard} />
+        <ProtectedRoute exact path='/makeasurvey' user={user} username={username} component={MakeASurvey} />
         <Route exact path='/unauthorized' component={Unauthorized} />
       </Router>
     </div>

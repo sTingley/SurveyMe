@@ -4,3 +4,9 @@ https://www.sohamkamani.com/blog/javascript/2019-03-29-node-jwt-authentication/
 
 https://auth0.com/docs/login/spa/authenticate-with-cookies
 
+
+
+
+solid hooks protected routes tutorial
+https://dev.to/mychal/protected-routes-with-react-function-components-dh
+

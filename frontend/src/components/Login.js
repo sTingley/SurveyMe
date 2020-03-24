@@ -14,7 +14,8 @@ export default function Login(props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const history = useHistory();
+    
     const handleChange = (e) => {
         if (e.target.id === 'password')
             setPassword(e.target.value);
@@ -40,6 +41,7 @@ export default function Login(props) {
                 else if(data.status === 200){
                     console.log('authorized')
                     props.handleLogin(username)
+                    history.push('/dashboard')
                 }
             })
             .catch((error) => {
