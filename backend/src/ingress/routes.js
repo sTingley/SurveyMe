@@ -1,6 +1,7 @@
 /**********************************************************************
 Current routes exposed/supported:
--GetSurveys, addSurvey, editSurvey, deleteSurvey
+    GetSurveys (GET,POST), addSurvey, editSurvey, deleteSurvey,
+    addUser, getUsers, signIn
 ***********************************************************************/
 
 const expose = async (application, db) => {
@@ -20,8 +21,7 @@ const expose = async (application, db) => {
     ***********************************************************************/
     application.endpoints.post('/signin', (req, res) => {
 
-        // Get credentials from JSON body
-        const { username, password } = req.body
+        const { username, password } = req.body;
         if (!username || !password) {
             // return 401 error is username or password doesn't exist in request
             return res.status(401).end();
@@ -31,7 +31,7 @@ const expose = async (application, db) => {
         collection.findOne({ username: req.body.username }, (err, docs) => {
 
             assert.equal(err, null);
-            if (docs != null && docs.hashedpass == password) { //make sure pwd matches
+            if (docs != null && docs.hashedpass == password) {
 
                 // Create a new token with the username in the payload
                 // and which expires 300 seconds after issue
@@ -39,54 +39,48 @@ const expose = async (application, db) => {
                     algorithm: 'HS256',
                     expiresIn: jwtExpirySeconds
                 })
-                console.log('token:', token)
+                console.log('token:', token);
 
                 // set the cookie as the token string, with a similar max age as the token
                 // here, the max age is in milliseconds, so we multiply by 1000
-                res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 })
-                res.end()
-            } else {
-                res.status(200).send({ message: 'try again broh.' })
-            }
+                res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 });
+                res.end();
+
+            } else { res.status(200).send({ message: 'try again broh.' }) }
         })
-
-
-
     })
 
     /**********************************************************************
     ***********************************************************************/
     application.endpoints.get('/api/v1/getSurveys', (req, res) => {
-        application.logger.debug('inside getSurveys');
+
         const collection = db.collection('surveys');
         collection.find({}).toArray(function (err, docs) {
             assert.equal(err, null);
-            if (docs.length > 0) { //TODO: make this better and check req
-                res.status(200).send({ docs })
-            } else {
-                res.status(200).send({ message: 'no surveys found.' })
-            }
+
+            if (docs.length > 0) {
+                res.status(200).send({ docs });
+            } else { res.status(200).send({ message: 'no surveys found.' }); }
         })
     })
+
     /**********************************************************************
     ***********************************************************************/
-   application.endpoints.post('/api/v1/getSurveys', (req, res) => {
-    application.logger.debug('inside getSurveys');
-    if (!req.body) {
-        res.status(400).send({ message: 'must send a request.body' })
-    }
+    application.endpoints.post('/api/v1/getSurveys', (req, res) => {
 
-    const collection = db.collection('surveys');
-    collection.findOne({id: req.body.surveyID}, function (err, docs) {
-        assert.equal(err, null);
-        if (docs.length != 0) { //TODO: make this better and check req
-            res.status(200).send({ docs })
-        } else {
-            res.status(200).send({ message: 'no surveys found.' })
-        }
+        if (!req.body) { res.status(400).send({ message: 'must send a request.body' }) }
+
+        const collection = db.collection('surveys');
+        collection.find({ owners: req.body.owners }).toArray(function (err, docs) {
+
+            assert.equal(err, null);
+            if (docs.length > 0) {
+                const filtered = docs.filter((e) => { return e.owners; })
+                res.status(200).send({ filtered });
+
+            } else { res.status(200).send({ message: `no surveys found for ${req.body.owners}` }) }
+        })
     })
-})
-
 
     /**********************************************************************
     ***********************************************************************/
@@ -122,7 +116,7 @@ const expose = async (application, db) => {
             if (docs.length > 0) { //TODO: make this better and check req
                 res.status(200).send({ docs })
             } else {
-                res.status(200).send({ message: 'users.' })
+                res.status(200).send({ message: 'did not get users.' })
             }
         })
     })
@@ -135,7 +129,7 @@ const expose = async (application, db) => {
             res.status(400).send({ message: 'must send a request.body' })
         }
         const collection = db.collection('surveys');
-        //TODO-Check if the survey already exists by ID before adding to the DB
+        //TODO-Check if the survey already exists by ID before adding to the DB?
         collection.insertOne(req.body, (err, result) => {
             assert.equal(err, null);
             res.status(200).send({ message: 'survey added' });
@@ -162,9 +156,8 @@ const expose = async (application, db) => {
             res.status(404).send({ message: 'must input a request.body.survey' })
         }
         const collection = db.collection('surveys');
-        collection.findOne({ id: req.body.surveyID }, (err, survey) => {
+        collection.findOne({ id: req.body.surveyID }, (err, survey) => { //findOne bc no duplicate IDs
 
-            console.log("response from findOne:  " + JSON.stringify(survey));
             assert.equal(err, null);
             if (survey != null) {
                 collection.deleteOne({ id: req.body.surveyID }, (err, item) => {
@@ -172,7 +165,8 @@ const expose = async (application, db) => {
                     console.log("response from deleteOne: " + JSON.stringify(item));
                     res.status(200).send({ message: `might have removed ${req.body.surveyID} from collection` })
                 })
-            }
+
+            } else { res.status(200).send({message: `did not find any survey with ID ${req.body.surveyID}`}) }
         })
     })
 
