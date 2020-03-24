@@ -137,19 +137,19 @@ const expose = async (application, db) => {
 
     /**********************************************************************
     ***********************************************************************/
-    application.endpoints.post('api/v1/deleteSurvey/:id', (req, res) => {
+    application.endpoints.post('/api/v1/deleteSurvey/', (req, res) => {
 
-        if (!req.body.survey) {
+        if (!req.body.surveyID) {
             res.status(404).send({ message: 'must input a request.body.survey' })
         }
         const collection = db.collection('surveys');
-        collection.findOne({ ID: req.body.surveyID }, (err, survey) => {
+        collection.findOne({ id: req.body.surveyID }, (err, survey) => {
 
             console.log("response from findOne:  " + JSON.stringify(survey));
 
             assert.equal(err, null);
             if (survey != null) {
-                collection.deleteOne({ ID: req.body.surveyID }, (err, item) => {
+                collection.deleteOne({ id: req.body.surveyID }, (err, item) => {
                     assert.equal(err, null);
                     console.log("response from deleteOne: " + JSON.stringify(item));
                     res.status(200).send({ message: `might have removed ${req.body.surveyID} from collection` })

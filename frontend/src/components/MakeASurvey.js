@@ -19,10 +19,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as UUID from "uuid";
 
 
-export default function MakeASurvey() {
+export default function MakeASurvey(props) {
 
   const [questionState, setQuestionState] = useState({})
-
+  const [title, setTitle] = useState("")
   const [questionType, setQuestionType] = useState("");
   const [emptyQuestions, setEmptyQuestions] = useState([])
 
@@ -47,15 +47,28 @@ export default function MakeASurvey() {
 
   }
 
+  const handleTitle = (e) => {
+    setTitle(e.target.value)
+  }
+
   const sendSurvey = () => {
 
     console.log(questionState)
+    let surveyobj = {
+      title: title,
+      id: UUID.v4(),
+      owners: [props.username],
+      questions: [questionState]
+    }
+
+
+
     fetch('http://localhost:5000/api/v1/addSurvey', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(questionState),
+      body: JSON.stringify(surveyobj),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -201,7 +214,7 @@ export default function MakeASurvey() {
         <Typography >
           Enter Survey Title Here..
       </Typography>
-        <TextField placeholder={"survey title here..."} />
+        <TextField value={title} onChange={handleTitle} placeholder={"survey title here..."} />
       </Card>
       <Card style={cardstyle}>
         <InputLabel id="demo-simple-select-label">Select Question Type using selector</InputLabel>

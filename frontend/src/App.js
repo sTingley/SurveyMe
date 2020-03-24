@@ -3,16 +3,15 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Redirect,
 } from "react-router-dom";
 import SurveyDashboard from './components/SurveyDashboard';
 import MakeASurvey from './components/MakeASurvey';
 import Login from './components/Login';
 import Unauthorized from './Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute';
-
-import { getSession, logOut } from './helpers/AuthHelp'
 import RegisterUser from "./components/RegisterUser";
+
+
 
 import Button from '@material-ui/core/Button'
 
@@ -42,6 +41,7 @@ export default function App() {
         <Route exact path='/' handleLogin={handleLogin} render={props => <Login {...props} user={user} handleLogin={handleLogin} />} />
         <ProtectedRoute exact path='/dashboard' user={user} username={username} component={SurveyDashboard} />
         <ProtectedRoute exact path='/makeasurvey' user={user} username={username} component={MakeASurvey} />
+        <Route exact path='/registeruser' component={RegisterUser}/>
         <Route exact path='/unauthorized' component={Unauthorized} />
       </Router>
     </div>
