@@ -58,7 +58,7 @@ export default function MakeASurvey(props) {
       title: title,
       id: UUID.v4(),
       owners: [props.username],
-      questions: [questionState]
+      questions: questionState.questions
     }
 
 
@@ -84,9 +84,8 @@ export default function MakeASurvey(props) {
   }
 
   const removeResponse = (response_id, question_id) => {
-
     let obj = questionState;
-    obj.questions[findQinObj(obj, question_id)].responses = obj.questions[findQinObj(obj, question_id)].responses.filter(r => r.response_id !== response_id)
+    obj.questions[findQuestion(obj, question_id)].responses = obj.questions[findQuestion(obj, question_id)].responses.filter(r => r.response_id !== response_id)
     setQuestionState(obj)
 
   }
@@ -94,24 +93,27 @@ export default function MakeASurvey(props) {
   function handleMultiChange(name, value, question_id) {
     if (question_id === undefined) {
       let obj = questionState;
-      obj.questions[findQinObj(obj, name)].content = value;
+      obj.questions[findQuestion(obj, name)].content = value;
       setQuestionState(obj);
     }
     else {
       let obj = questionState;
-      obj.questions[findQinObj(obj, question_id)].responses[findRinQobj(obj, question_id, name)].response_content = value;
+      obj.questions[findQuestion(obj, question_id)].responses[findResponseInQuestion(obj, question_id, name)].response_content = value;
       setQuestionState(obj);
     }
   }
 
-  function findRinQobj(obj, question_id, response_id) {
-    for (let i = 0; i < obj.questions[findQinObj(obj, question_id)].responses.length; i++) {
-      if (obj.questions[findQinObj(obj, question_id)].responses[i].response_id === response_id)
+
+  //returns index of response with corresponding question_id and response_id
+  function findResponseInQuestion(obj, question_id, response_id) {
+    for (let i = 0; i < obj.questions[findQuestion(obj, question_id)].responses.length; i++) {
+      if (obj.questions[findQuestion(obj, question_id)].responses[i].response_id === response_id)
         return i;
     }
   }
 
-  function findQinObj(obj, question_id) {
+  //returns index of question with corresponding question_id
+  function findQuestion(obj, question_id) {
     for (let i = 0; i < obj.questions.length; i++) {
       if (obj.questions[i].id === question_id)
         return i;
@@ -121,7 +123,7 @@ export default function MakeASurvey(props) {
   const generateResponseObj = (question_id, response_id) => {
     let obj = questionState;
 
-    obj.questions[findQinObj(obj, question_id)].responses.push({
+    obj.questions[findQuestion(obj, question_id)].responses.push({
       response_id: response_id,
       response_content: "",
       selected: false

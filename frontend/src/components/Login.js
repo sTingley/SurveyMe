@@ -41,7 +41,7 @@ export default function Login(props) {
                 else if(data.status === 200){
                     console.log('authorized')
                     props.handleLogin(username)
-                    history.push('/dashboard')
+                    history.push('/makeasurvey')
                 }
             })
             .catch((error) => {
