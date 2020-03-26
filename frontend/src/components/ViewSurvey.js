@@ -8,8 +8,8 @@ export default function ViewSurvey(props) {
 
   return (
     <div>
-      <Typography variant="h4" component="h2">
-        {`Survey Title: will soon go here  ID: will soon go here`}
+      <Typography variant="h7" component="h2">
+        {`Title: ${props.survey.title}`}
       </Typography>
       <ul>{returnQuestionArray(props.survey.questions)}</ul>
     </div>
@@ -17,7 +17,6 @@ export default function ViewSurvey(props) {
 }
 
 function returnQuestionArray(arr) {
-  console.log(arr)
   return arr.map(q => returnQuestion(q))
 }
 
@@ -26,6 +25,7 @@ function returnQuestion(q) {
     case 0:
       return (
         <ShortAnswer
+          key={q.id}
           question_id={q.id}
           question_content={q.content}
           question_responses={q.responses}
@@ -34,6 +34,7 @@ function returnQuestion(q) {
     case 1:
       return (
         <MultipleChoice
+          key={q.id}
           question_id={q.id}
           question_content={q.content}
           question_responses={q.responses}
@@ -43,6 +44,7 @@ function returnQuestion(q) {
     case 2:
       return (
         <MultiSelect
+          key={q.id}
           question_id={q.id}
           question_content={q.content}
           question_responses={q.responses}
