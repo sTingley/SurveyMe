@@ -13,20 +13,24 @@ import * as UUID from "uuid";
 
 
 export default function MultipleChoice(props) {
+  const [, setState] = useState({})
 
-  const [responses, setResponses] = useState([]);
+
   function returnRs(rs) {
     return rs.map((r) => {
       if (r.selected === true)
-        return <li><FormControlLabel disabled key={r.response_id} value={r.response_content} control={<Radio checked />} label={r.response_content} /></li>
+        return <li><FormControlLabel key={r.response_id} disabled value={r.response_content} control={<Radio checked />} label={r.response_content} /></li>
       else
-        return <li><FormControlLabel disabled key={r.response_id}  value={r.response_content} control={<Radio />} label={r.response_content} /></li>
+        return <li><FormControlLabel key={r.response_id} disabled value={r.response_content} control={<Radio />} label={r.response_content} /></li>
     }
     )
   }
+
+
   const removeResponse = (response_id) => {
-    setResponses(responses.filter(r => r.id !== response_id))
     props.removeResponse(response_id, props.question_id)
+    setState({})
+
   }
   const handleQChange = (e) => {
     props.onChange(e.target.id, e.target.value)
@@ -36,21 +40,11 @@ export default function MultipleChoice(props) {
   }
 
   const generateResponse = () => {
-    let new_response_id = UUID.v4()
+    let new_response_id = UUID.v4();
+    
     props.generateResponseObj(props.question_id, new_response_id)
-    setResponses(responses.concat(
-      <div>
-        <TextField
-          key={new_response_id}
-          onChange={handleRChange}
-          id={new_response_id}
-          label="Enter Response Here..."
-          variant="standard" />
-
-        <input type="button" value="-" onClick={() => removeResponse(new_response_id)} />
-        <br></br>
-      </div>
-    ))
+    setState({})
+    
   }
 
   if (props.mode !== "edit")
@@ -60,7 +54,7 @@ export default function MultipleChoice(props) {
           <Typography variant="h5" component="h2">
             Question: {props.question_content}
           </Typography>
-          <ul>{returnRs(props.question_responses)}</ul>
+            <ul>{returnRs(props.question_responses)}</ul>
         </CardContent>
       </Card>
     )
@@ -69,16 +63,28 @@ export default function MultipleChoice(props) {
       <Card>
         <CardContent>
           <Typography>
-            Multiple Choice Question {props.question_id}
+          Multiple Choice Question {props.question_id}
           </Typography>
           <TextField
-            key={`${props.question_id}`}
             onChange={handleQChange}
             id={`${props.question_id}`}
             label="Enter Question Here..."
             variant="filled" />
-          <input type="button" value="+" onClick={generateResponse} />
-          <ul>{responses.map((r) => { return (r) })}</ul>
+            <input type="button" value="+" onClick={generateResponse} />
+          <ul>{props.responses.map((r, index) => { return (
+            <div>
+            <TextField
+              key={r.response_id}
+              onChange={handleRChange}
+              id={r.response_id}
+              label="Enter Response Here..."
+              variant="standard"
+              value={props.responses[index].response_content}
+              />
+            <input type="button" value="-"  onClick={() => removeResponse(r.response_id)} />
+            <br></br>
+          </div>
+          ) })}</ul>
         </CardContent>
       </Card>
     )

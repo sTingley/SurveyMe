@@ -10,10 +10,8 @@ import * as UUID from "uuid";
 
 export default function MultiSelect(props) {
 
-  const [responses, setResponses] = useState([]);
+  const [, setState] = useState({})
 
-//use this to display
-//<FormControlLabel disabled value={r} control={<Checkbox checked />} label={r} />
 
   function returnRs(rs) {
     return rs.map((r) => {
@@ -27,8 +25,9 @@ export default function MultiSelect(props) {
 
 
   const removeResponse = (response_id) => {
-    setResponses(responses.filter(r => r.id !== response_id))
     props.removeResponse(response_id, props.question_id)
+    setState({})
+
   }
   const handleQChange = (e) => {
     props.onChange(e.target.id, e.target.value)
@@ -39,19 +38,10 @@ export default function MultiSelect(props) {
 
   const generateResponse = () => {
     let new_response_id = UUID.v4();
+    
     props.generateResponseObj(props.question_id, new_response_id)
-    setResponses(responses.concat(
-      <div>
-        <TextField
-          key={new_response_id}
-          onChange={handleRChange}
-          id={new_response_id}
-          label="Enter Response Here..."
-          variant="standard" />
-        <input type="button" value="-"  onClick={() => removeResponse(new_response_id)} />
-        <br></br>
-      </div>
-    ))
+    setState({})
+    
   }
 
   if (props.mode !== "edit")
@@ -78,7 +68,20 @@ export default function MultiSelect(props) {
             label="Enter Question Here..."
             variant="filled" />
             <input type="button" value="+" onClick={generateResponse} />
-          <ul>{responses.map((r) => { return (r) })}</ul>
+          <ul>{props.responses.map((r, index) => { return (
+            <div>
+            <TextField
+              key={r.response_id}
+              onChange={handleRChange}
+              id={r.response_id}
+              label="Enter Response Here..."
+              variant="standard"
+              value={props.responses[index].response_content}
+              />
+            <input type="button" value="-"  onClick={() => removeResponse(r.response_id)} />
+            <br></br>
+          </div>
+          ) })}</ul>
         </CardContent>
       </Card>
     )
