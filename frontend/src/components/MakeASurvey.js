@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+
+import {useHistory} from 'react-router-dom';
+
+
 import ShortAnswer from './questions/ShortAnswer';
 import MultipleChoice from './questions/MultipleChoice';
 import MultiSelect from './questions/MultiSelect';
@@ -21,10 +25,13 @@ import * as UUID from "uuid";
 
 export default function MakeASurvey(props) {
 
-  const [questionState, setQuestionState] = useState({})
+  const [surveyState, setSurveyState] = useState({})
   const [title, setTitle] = useState("")
   const [questionType, setQuestionType] = useState("");
   const [emptyQuestions, setEmptyQuestions] = useState([])
+
+  const history = useHistory();
+
 
   const useStyles = makeStyles(theme => ({
 
@@ -53,12 +60,12 @@ export default function MakeASurvey(props) {
 
   const sendSurvey = () => {
 
-    console.log(questionState)
+    console.log(surveyState)
     let surveyobj = {
       title: title,
       id: UUID.v4(),
       owners: [props.username],
-      questions: questionState.questions
+      questions: surveyState.questions
     }
 
 
@@ -73,6 +80,7 @@ export default function MakeASurvey(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log('Success:', data);
+        history.push('/dashboard')
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -84,22 +92,22 @@ export default function MakeASurvey(props) {
   }
 
   const removeResponse = (response_id, question_id) => {
-    let obj = questionState;
+    let obj = surveyState;
     obj.questions[findQuestion(obj, question_id)].responses = obj.questions[findQuestion(obj, question_id)].responses.filter(r => r.response_id !== response_id)
-    setQuestionState(obj)
+    setSurveyState(obj)
 
   }
 
   function handleMultiChange(name, value, question_id) {
     if (question_id === undefined) {
-      let obj = questionState;
+      let obj = surveyState;
       obj.questions[findQuestion(obj, name)].content = value;
-      setQuestionState(obj);
+      setSurveyState(obj);
     }
     else {
-      let obj = questionState;
+      let obj = surveyState;
       obj.questions[findQuestion(obj, question_id)].responses[findResponseInQuestion(obj, question_id, name)].response_content = value;
-      setQuestionState(obj);
+      setSurveyState(obj);
     }
   }
 
@@ -121,7 +129,7 @@ export default function MakeASurvey(props) {
 
   }
   const generateResponseObj = (question_id, response_id) => {
-    let obj = questionState;
+    let obj = surveyState;
 
     obj.questions[findQuestion(obj, question_id)].responses.push({
       response_id: response_id,
@@ -129,7 +137,7 @@ export default function MakeASurvey(props) {
       selected: false
     });
 
-    setQuestionState(obj);
+    setSurveyState(obj);
   }
 
 
@@ -137,7 +145,7 @@ export default function MakeASurvey(props) {
     let new_question_id = UUID.v4();
 
     if (emptyQuestions.length === 0) {
-      setQuestionState(Object.assign(questionState, {
+      setSurveyState(Object.assign(surveyState, {
         [`questions`]: [
           {
             [`id`]: `${new_question_id}`,
@@ -150,7 +158,7 @@ export default function MakeASurvey(props) {
       }))
     }
     else {
-      let obj = questionState;
+      let obj = surveyState;
       obj.questions.push({
         [`id`]: `${new_question_id}`,
         [`content`]: "",
@@ -159,7 +167,7 @@ export default function MakeASurvey(props) {
         [`responses`]: []
       })
 
-      setQuestionState(obj)
+      setSurveyState(obj)
 
     }
 
@@ -168,7 +176,7 @@ export default function MakeASurvey(props) {
     switch (questionType) {
       case 0:
         setEmptyQuestions(emptyQuestions.concat(
-          <div>
+          <li>
             <ShortAnswer
               key={`${new_question_id}`}
               removeResponse={removeResponse}
@@ -176,12 +184,12 @@ export default function MakeASurvey(props) {
               onChange={handleMultiChange}
               mode={"edit"}
               generateResponseObj={generateResponseObj}
-            /><br></br>
-          </div>))
+            />
+          </li>))
         break;
       case 1:
         setEmptyQuestions(emptyQuestions.concat(
-          <div>
+          <li>
             <MultipleChoice
               key={`${new_question_id}`}
               removeResponse={removeResponse}
@@ -189,12 +197,12 @@ export default function MakeASurvey(props) {
               onChange={handleMultiChange}
               mode={"edit"}
               generateResponseObj={generateResponseObj}
-            /><br></br>
-          </div>))
+            />
+          </li>))
         break;
       case 2:
         setEmptyQuestions(emptyQuestions.concat(
-          <div>
+          <li>
             <MultiSelect
               key={`${emptyQuestions.length}`}
               removeResponse={removeResponse}
@@ -202,8 +210,8 @@ export default function MakeASurvey(props) {
               onChange={handleMultiChange}
               mode={"edit"}
               generateResponseObj={generateResponseObj}
-            /><br></br>
-          </div>))
+            />
+          </li>))
     }
   }
 

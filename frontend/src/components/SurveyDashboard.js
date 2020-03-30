@@ -34,24 +34,24 @@ export default function SurveyDashboard(props) {
   const attemptDeleteSurvey = (surveyID) => {
     fetch('http://localhost:5000/api/v1/deleteSurvey', {
       method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({surveyID}),
-    })  
-        .then((data) => {
-            if(data.status > 400){
-                console.log('error did not delete survey')
-            }
-            else if(data.status === 200){
-                console.log('survey deleted in db')
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ surveyID }),
+    })
+      .then((data) => {
+        if (data.status > 400) {
+          console.log('error did not delete survey')
+        }
+        else if (data.status === 200) {
+          console.log('survey deleted in db')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
-}
+  }
 
 
   function deleteSurvey(e) {
@@ -69,17 +69,19 @@ export default function SurveyDashboard(props) {
           Displaying {props.username}'s surveys
       </Typography>
       </Paper>
-      {loading ? <p> loading... </p> : <div>{surveyArray.map((s) =>
-        <Paper elevation={3}>
-          <input type="button"
-            id={s.id}
-            onClick={deleteSurvey}
-            value={'CLick to delete'}
-          />
-          <ViewSurvey
-            survey={s}
-          />
-        </Paper>)}</div>}
+      {loading ? <p> loading... </p> :
+        surveyArray[0] === undefined ? <p>No surveys yet</p> :
+          <div>{surveyArray.map((s) =>
+            <Paper elevation={3}>
+              <input type="button"
+                id={s.id}
+                onClick={deleteSurvey}
+                value={'CLick to delete'}
+              />
+              <ViewSurvey
+                survey={s}
+              />
+            </Paper>)}</div>}
       <br></br>
     </div>
   )
