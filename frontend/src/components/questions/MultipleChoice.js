@@ -63,7 +63,7 @@ export default function MultipleChoice(props) {
       <Card>
         <CardContent>
           <Typography>
-          Multiple Choice Question {props.question_id}
+          Multiple Choice Question
           </Typography>
           <TextField
             onChange={handleQChange}
