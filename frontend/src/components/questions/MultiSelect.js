@@ -22,12 +22,11 @@ export default function MultiSelect(props) {
     }
     )
   }
-
+  
 
   const removeResponse = (response_id) => {
     props.removeResponse(response_id, props.question_id)
     setState({})
-
   }
   const handleQChange = (e) => {
     props.onChange(e.target.id, e.target.value)
@@ -38,7 +37,6 @@ export default function MultiSelect(props) {
 
   const generateResponse = () => {
     let new_response_id = UUID.v4();
-    
     props.generateResponseObj(props.question_id, new_response_id)
     setState({})
     

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 import ShortAnswer from './questions/ShortAnswer';
@@ -26,7 +26,7 @@ import * as UUID from "uuid";
 export default function MakeASurvey(props) {
 
   const [, setState] = useState({});
-  const [surveyState, setSurveyState] = useState({questions: []})
+  const [surveyState, setSurveyState] = useState({ questions: [] })
   const [title, setTitle] = useState("")
   const [questionType, setQuestionType] = useState(2);
 
@@ -144,7 +144,12 @@ export default function MakeASurvey(props) {
 
     setSurveyState(obj);
   }
-
+  const removeQuestion = (e) => {
+    let obj = surveyState;
+    obj.questions = obj.questions.filter((q)=> q.id !== e.target.id)
+    setSurveyState(obj)
+    setState({})
+  }
 
   const generateQuestionBox = () => {
     console.log(surveyState)
@@ -209,42 +214,44 @@ export default function MakeASurvey(props) {
           Questions will be listed below:
       </Typography>
         {surveyState.questions[0] === undefined ? <p>no questions click button above to make some</p> :
-        
-        <ul>{surveyState.questions.map((q) => 
-          {
-          if(q.type === 0 )
-          return (<li>
-            <ShortAnswer
-              key={q.id}
-              question_id={q.id}
-              onChange={handleMultiChange}
-              mode={"edit"}
-            />
-          </li>)
-          if(q.type === 1 )
-          return (<li>
-            <MultipleChoice
-              key={q.id}
-              removeResponse={removeResponse}
-              question_id={q.id}
-              onChange={handleMultiChange}
-              mode={"edit"}
-              responses={q.responses}
-              generateResponseObj={generateResponseObj}
-            />
-          </li>) 
-          if(q.type === 2 )
-          return (<li>
-            <MultiSelect
-              key={q.id}
-              removeResponse={removeResponse}
-              question_id={q.id}
-              onChange={handleMultiChange}
-              mode={"edit"}
-              responses={q.responses}
-              generateResponseObj={generateResponseObj}
-            />
-          </li>)
+
+          <ul>{surveyState.questions.map((q, index) => {
+            if (q.type === 0)
+              return (<li>
+                <ShortAnswer
+                  key={q.id}
+                  question_id={q.id}
+                  onChange={handleMultiChange}
+                  mode={"edit"}
+                />
+                <input type='button' id={q.id} onClick={removeQuestion} />
+              </li>)
+            if (q.type === 1)
+              return (<li>
+                <MultipleChoice
+                  key={q.id}
+                  removeResponse={removeResponse}
+                  question_id={q.id}
+                  onChange={handleMultiChange}
+                  mode={"edit"}
+                  responses={q.responses}
+                  generateResponseObj={generateResponseObj}
+                />
+                <input type='button' id={q.id} onClick={removeQuestion} />
+              </li>)
+            if (q.type === 2)
+              return (<li>
+                <MultiSelect
+                  key={q.id}
+                  removeResponse={removeResponse}
+                  question_id={q.id}
+                  onChange={handleMultiChange}
+                  mode={"edit"}
+                  responses={q.responses}
+                  generateResponseObj={generateResponseObj}
+                />
+                <input type='button' id={q.id} onClick={removeQuestion} />
+              </li>)
           })
           }</ul>}
       </Card>
