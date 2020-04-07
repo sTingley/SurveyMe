@@ -2,6 +2,10 @@
 Current routes exposed/supported:
     GetSurveys (GET,POST), addSurvey, editSurvey, deleteSurvey,
     addUser, getUsers, signIn
+
+    Methods used:
+    
+    db.collection.updateOne(filter, update, options)
 ***********************************************************************/
 
 const expose = async (application, db) => {
@@ -166,9 +170,80 @@ const expose = async (application, db) => {
                     res.status(200).send({ message: `might have removed ${req.body.surveyID} from collection` })
                 })
 
-            } else { res.status(200).send({message: `did not find any survey with ID ${req.body.surveyID}`}) }
+            } else { res.status(200).send({ message: `did not find any survey with ID ${req.body.surveyID}` }) }
         })
     })
+
+    /**********************************************************************
+     * TODO: Clean up debugging
+    ***********************************************************************/
+    application.endpoints.post('/api/v1/writeNotification/', (req, res) => {
+        application.logger.debug('we will need to have the requestor as well as requestee');
+
+        const { username, message } = req.body;
+        if (!username || !message) {
+            // return 401 error is username or password doesn't exist in request
+            return res.status(401).end();
+        }
+
+        const collection = db.collection('notifications');
+        collection.findOne({ username: req.body.username }, (err, doc) => { //findOne bc no duplicate IDs
+
+            assert.equal(err, null);
+            if (doc != null) { // already have notifications for this username
+
+                application.logger.debug(`found notifications document for ${req.body.username}`);
+                application.logger.warn(`i think this will only work for one message/notification per time atm`)
+
+                collection.updateOne(
+                    { _id: doc._id },
+                    {$push: { messages: req.body.message } }, (err, ndoc) => {
+                        assert.equal(err, null);
+                        console.log("updated notifications doc: " + ndoc);
+                        res.status(200).send({ message: `notifcation document updated for ${req.body.username}` });
+                    }
+                );
+
+            } else {
+
+                application.logger.debug(`Inserting first notifcation for ${req.body.username}...`)
+                req.body['messages'] = req.body.message;
+                delete req.body.message;
+                application.logger.warn('InsertOne will not work if collection doesnt exist yet?')
+                collection.insertOne(req.body, (err, result) => {
+                    assert.equal(err, null);
+                    console.log("notification insertOne result:  " + result);
+                    res.status(200).send({ message: `notification written for ${req.body.username}` });
+                })
+            }
+        })
+
+    })
+
+
+
+
+    /**********************************************************************
+    ***********************************************************************/
+    application.endpoints.post('/api/v1/notifications/', (req, res) => {
+
+        if (!req.body.username) {
+            res.status(404).send({ message: 'must send a username to find notifications' })
+        }
+        const collection = db.collection('notifications');
+        collection.findOne({ username: req.body.username }, (err, docs) => { //findOne bc no duplicate IDs
+
+            assert.equal(err, null);
+
+            if (docs != null) {    
+                res.status(200).send({ docs })
+            }
+            
+            else { res.status(200).send({ message: `No notifications for ${req.body.username}` }) }
+
+        })
+    })
+
 
 }
 
