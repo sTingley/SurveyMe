@@ -207,8 +207,6 @@ const expose = async (application, db) => {
             } else {
 
                 application.logger.debug(`Inserting first notifcation for ${req.body.username}...`)
-                req.body['messages'] = req.body.message;
-                delete req.body.message;
                 application.logger.warn('InsertOne will not work if collection doesnt exist yet?')
                 collection.insertOne(req.body, (err, result) => {
                     assert.equal(err, null);
