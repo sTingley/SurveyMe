@@ -51,9 +51,8 @@ export default function RegisterUser(props) {
                 }
                 else if(data.status === 200){
                     console.log('authorized')
-                    //using local storage to store userdata (not private)
                     console.log('user created navigating to login...')
-                    history.push('/Login')
+                    history.push('/')
                 }
             })
             .catch((error) => {

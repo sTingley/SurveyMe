@@ -223,8 +223,8 @@ export default function MakeASurvey(props) {
                   question_id={q.id}
                   onChange={handleMultiChange}
                   mode={"edit"}
+                  removeQuestion={removeQuestion}
                 />
-                <input type='button' id={q.id} onClick={removeQuestion} />
               </li>)
             if (q.type === 1)
               return (<li>
@@ -236,8 +236,8 @@ export default function MakeASurvey(props) {
                   mode={"edit"}
                   responses={q.responses}
                   generateResponseObj={generateResponseObj}
+                  removeQuestion={removeQuestion}
                 />
-                <input type='button' id={q.id} onClick={removeQuestion} />
               </li>)
             if (q.type === 2)
               return (<li>
@@ -249,6 +249,7 @@ export default function MakeASurvey(props) {
                   mode={"edit"}
                   responses={q.responses}
                   generateResponseObj={generateResponseObj}
+                  removeQuestion={removeQuestion}
                 />
                 <input type='button' id={q.id} onClick={removeQuestion} />
               </li>)

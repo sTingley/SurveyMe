@@ -30,6 +30,11 @@ export default function ShortAnswer(props) {
           <Typography>
             Short Answer Choice Question {props.question_id}
           </Typography>
+          <input type="button"
+            onClick={props.removeQuestion}
+            value="remove this question"
+          />
+          <br></br>
           <TextField
             key={`${props.question_id}`}
             onChange={handleQChange}

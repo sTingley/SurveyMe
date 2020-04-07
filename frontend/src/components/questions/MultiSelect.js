@@ -22,12 +22,7 @@ export default function MultiSelect(props) {
     }
     )
   }
-  
 
-  const removeResponse = (response_id) => {
-    props.removeResponse(response_id, props.question_id)
-    setState({})
-  }
   const handleQChange = (e) => {
     props.onChange(e.target.id, e.target.value)
   }
@@ -39,7 +34,7 @@ export default function MultiSelect(props) {
     let new_response_id = UUID.v4();
     props.generateResponseObj(props.question_id, new_response_id)
     setState({})
-    
+
   }
 
   if (props.mode !== "edit")
@@ -49,7 +44,7 @@ export default function MultiSelect(props) {
           <Typography variant="h5" component="h2">
             Question: {props.question_content}
           </Typography>
-            <ul>{returnRs(props.question_responses)}</ul>
+          <ul>{returnRs(props.question_responses)}</ul>
         </CardContent>
       </Card>
     )
@@ -58,28 +53,33 @@ export default function MultiSelect(props) {
       <Card>
         <CardContent>
           <Typography>
-          Multiple Selection Question
+            Multiple Selection Question
           </Typography>
+          <input type="button"
+            id={props.question_id}
+            onClick={props.removeQuestion}
+            value="remove this question"
+          />          <br></br>
           <TextField
             onChange={handleQChange}
             id={`${props.question_id}`}
             label="Enter Question Here..."
             variant="filled" />
-            <input type="button" value="+" onClick={generateResponse} />
-          <ul>{props.responses.map((r, index) => { return (
-            <div>
-            <TextField
-              key={r.response_id}
-              onChange={handleRChange}
-              id={r.response_id}
-              label="Enter Response Here..."
-              variant="standard"
-              value={props.responses[index].response_content}
-              />
-            <input type="button" value="-"  onClick={() => removeResponse(r.response_id)} />
-            <br></br>
-          </div>
-          ) })}</ul>
+          <input type="button" value="+" onClick={generateResponse} />
+          <ul>{props.responses.map((r, index) => {
+            return (
+              <div>
+                <TextField
+                  key={r.response_id}
+                  onChange={handleRChange}
+                  id={r.response_id}
+                  label="Enter Response Here..."
+                  variant="standard"
+                  value={props.responses[index].response_content}
+                />
+              </div>
+            )
+          })}</ul>
         </CardContent>
       </Card>
     )
