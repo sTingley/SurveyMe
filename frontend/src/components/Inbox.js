@@ -12,7 +12,7 @@ export default function Inbox(props) {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await fetch("http://localhost:5000/api/v1/getUserInfo",
+            const res = await fetch("http://localhost:5000/api/v1/notifications",
                 {
                     method: 'POST',
                     headers: {
@@ -21,7 +21,8 @@ export default function Inbox(props) {
                     body: JSON.stringify({ username: props.username })
                 })
             const data = await res.json();
-            const inbox = data;
+            setInbox(data.docs.messages)
+            console.log(inbox)
         }
         fetchData();
     }, [])
@@ -31,9 +32,9 @@ export default function Inbox(props) {
             <CardContent>
                 <Typography>
                     Displaying {props.username}'s Inbox
-               {inbox.length === 0 ?  <p> No messages</p> : 
+               {inbox.length === 0 ?  <p2> No messages</p2> : 
                 <ul>{inbox.map((message)=>
-                    <li>{message.content}</li>)}
+                    <li>{message}</li>)}
                 </ul>}
                </Typography>
             </CardContent>
