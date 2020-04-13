@@ -2,7 +2,7 @@
 Current routes exposed/supported:
     GetSurveys (GET,POST), addSurvey, editSurvey, deleteSurvey,
     addUser, getUsers, signIn
-
+    isUser
     Methods used:
     
     db.collection.updateOne(filter, update, options)
@@ -125,6 +125,24 @@ const expose = async (application, db) => {
         })
     })
 
+    /**********************************************************************
+    ***********************************************************************/
+    //willem did this one:
+    //want to be able to check if someone is a user ebfore we attempt to send them a survey
+    //accepts username
+    application.endpoints.post('/api/v1/isUser', (req, res) => {
+        if (!req.body) { res.status(400).send({ message: 'must send a request.body' }) }
+        application.logger.debug('inside check user');
+        const collection = db.collection('users');
+        collection.find({username: req.body.username}).toArray(function (err, docs) {
+            assert.equal(err, null);
+            if (docs.length > 0) { 
+                res.status(200).send({ validated: true })
+            } else {
+                res.status(200).send({ validated: false })
+            }
+        })
+    })
     /**********************************************************************
     ***********************************************************************/
     application.endpoints.post('/api/v1/addSurvey', (req, res) => {
