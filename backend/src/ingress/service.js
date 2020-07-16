@@ -94,7 +94,7 @@ const IngressService = () => {
 
 	const application = {};
 	const fs = require('fs');
-	application.config = JSON.parse(fs.readFileSync('../config.json', 'utf-8'))
+	application.config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
 	Object.freeze(application.config);
 	log4js.configure(application.config.logger);
 	application.logger = log4js.getLogger();

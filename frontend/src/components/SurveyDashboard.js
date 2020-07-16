@@ -26,7 +26,20 @@ export default function SurveyDashboard(props) {
       setSurveyArray(surveyArray.concat(surveys));
       setLoading(false);
     }
+    async function refreshToken() {
+      const res = await fetch("http://localhost:5000/refresh",
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        })
+      const data = await res.json();
+        console.log(data)
+    }
     fetchData();
+    refreshToken();
   }, [])
 
 

@@ -181,6 +181,8 @@ export default function MakeASurvey(props) {
 
     }
     //this is dumb lets fix this later tho
+
+    
     setState({})
   }
 

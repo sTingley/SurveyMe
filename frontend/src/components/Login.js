@@ -41,6 +41,7 @@ export default function Login(props) {
                 else if(data.status === 200){
                     console.log('authorized')
                     props.handleLogin(username)
+                    //no handling of JWT here 
                     history.push('/dashboard')
                 }
             })
