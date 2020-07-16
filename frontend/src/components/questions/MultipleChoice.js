@@ -16,6 +16,10 @@ export default function MultipleChoice(props) {
   const [, setState] = useState({})
 
 
+
+
+
+  
   function returnRs(rs) {
     return rs.map((r) => {
       if (r.selected === true)
