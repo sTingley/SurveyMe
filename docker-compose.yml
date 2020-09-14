@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  express:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - application_network
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+       - './frontend:/usr/src/app'
+       - '/app/node_modules'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - express
+    networks:
+      - application_network
+    command: npm start
+networks:
+  application_network:
+    driver: bridge

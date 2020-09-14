@@ -1,14 +1,7 @@
-FROM node:10
-
-
+FROM node:12
 WORKDIR /usr/src/app
-
-
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
-
-EXPOSE 5000
-CMD [ "node", "./src/main.js" ]
+RUN npm install 
+RUN npm install react-scripts@3.4.1 -g
+EXPOSE 3000
+CMD ["npm", "start"]
